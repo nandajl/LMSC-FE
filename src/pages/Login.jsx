@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import employee from '../../src/assets/img/employee.png'
+import work from '../../src/assets/img/work.png'
 import lms from '../../src/assets/img/lms.png'
 import { Link, redirect, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -32,7 +32,7 @@ export const Login = () => {
           console.log(alert, message);
         }
         
-        setTimeout(() => {navigate("/")}, 1000); 
+        setTimeout(() => {navigate("/rolecheck")}, 1000); 
  
         
       } catch (error) {
@@ -71,7 +71,7 @@ export const Login = () => {
         </p>
         <div className='container lg:flex'>
           <div className='hidden lg:w-1/2 lg:block'>
-            <img src={employee} alt='employee' className='mx-auto'/>
+            <img src={work} alt='work' className='mx-auto'/>
           </div>
           <div className='w-1/2 '>
             <form onSubmit={handleLogin} className='rounded-large mx-auto p-10 flex-col w-96 text-xs bg-primary text-center'>

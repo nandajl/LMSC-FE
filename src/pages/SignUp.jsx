@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react'
-import employee from '../../src/assets/img/employee.png'
+import work from '../../src/assets/img/work.png'
 import lms from '../../src/assets/img/lms.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -80,7 +80,7 @@ export const SignUp = () => {
         </p>
         <div className='container lg:flex'>
           <div className='hidden lg:w-1/2 lg:block'>
-            <img src={employee} alt='employee' className='mx-auto'/>
+            <img src={work} alt='work' className='mx-auto'/>
           </div>
           <div className='w-1/2 '>
             <form onSubmit={handleRegister} className='rounded-large mx-auto p-10 flex-col w-96 text-xs bg-primary text-center'>
