@@ -14,7 +14,8 @@ export default {
         'primary': '#A6E2E2',
         'secondary' : '#3B58BE',
         'success' : '#73CA5C',
-        'error': '#FA2C5A'
+        'error': '#FA2C5A',
+        'info': '#09A6FF'
       },
       borderRadius: {
         'large': '3.5rem'
@@ -24,6 +25,9 @@ export default {
       },
       translate: {
         '-50%' : '-50%, -50%'
+      },
+      height: {
+        '100': '33rem'
       }
 
     }

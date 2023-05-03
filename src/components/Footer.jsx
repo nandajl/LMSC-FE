@@ -7,14 +7,14 @@ import icon_twitch from '../assets/img/icon_twitch.png'
 export default function Footer() {
   return (
     <div>
-      <div className='flex mt-5 px-44 mb-10'>
+      <div className='lg:flex mt-5 px-16 lg:px-44 mb-10'>
         <div className=''>
           <p className='font-bold text-lg mb-1'>LMS</p>
           <p className='mb-1'>Bandung</p>
           <p className='mb-1'>080990009988</p>
           <p className='mb-1'>lms@mail.com</p>
         </div>
-        <div className='mx-60'>
+        <div className='my-5 lg:my-0 lg:mx-60'>
           <p className='font-bold text-lg mb-1'>About Us</p>
           <p className='font-bold text-lg mb-1'>Services</p>
           <p className='font-bold text-lg mb-1'>Features</p>

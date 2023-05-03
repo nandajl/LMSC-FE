@@ -3,20 +3,20 @@ import { Accordion } from 'flowbite-react'
 
 export default function Faq() {
     return (
-        <div className='flex px-44 my-28 justify-between'>
+        <div className='lg:flex px-16 lg:px-44 my-28 justify-between'>
             <div>
                 <p className='text-4xl font-bold mb-10'>Frequently Asked Question</p>
                 <p>Bebrapa jawaban yang mungkin sedang kamu cari</p>
             </div>
-            <div className='w-1/2 '>
+            <div className='mt-6 lg:mt-0 lg:w-1/2 '>
                 <Accordion className='rounded-none'>
                     <Accordion.Panel> 
                         <Accordion.Title className='text-black'>
-                            What is Flowbite?
+                            What is LMS?
                         </Accordion.Title>
                         <Accordion.Content>
                             <p className="mb-2 text-black dark:text-gray-400">
-                                Flowbite is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.
+                                LMS is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.
                             </p>
                             <p className="text-black dark:text-gray-400">
                                 Check out this guide to learn how to

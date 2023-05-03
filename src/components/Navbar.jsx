@@ -3,7 +3,7 @@ import lms from '../assets/img/lms-transparant.png'
 
 export default function Navbar() {
   return (
-    <div className='flex w-screen justify-between h-20 py-3 px-16 bg-primary'>
+    <div className='flex w-screen justify-between h-20 py-3 px-4 bg-primary lg:px-16'>
         <img src={lms} alt="lms" />
         <div className='flex items-center font-semibold'>
             <ul className='flex me-6'>
