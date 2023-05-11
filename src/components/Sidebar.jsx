@@ -3,7 +3,7 @@ import { Sidebar } from 'flowbite-react'
 import lms from '../assets/img/lms.png'
 import { Link, NavLink } from 'react-router-dom'
 
-export default function Sidebars() {
+export default function Sidebars(active) {
   
   return (
     <div className="h-screen bg-primary md:overflow-hidden pt-2">

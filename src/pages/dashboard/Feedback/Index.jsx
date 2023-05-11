@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Feedback() {
+export default function FeedbackAdmin() {
   return (
     <div>Feedback</div>
   )

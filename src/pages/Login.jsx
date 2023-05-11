@@ -25,14 +25,22 @@ export const Login = () => {
         console.log(login);
         if (login) {
           const token = login.data.data.token;
-
+          const role= login.data.data.role;
           localStorage.setItem("token", token);
           setMessage("Login Berhasil");
           setAlert(true);
-          console.log(alert, message);
+          if (role === null) {
+            setTimeout(() => {navigate("/rolecheck")}, 1000);   
+          }
+          else if (role === 'Perusahaan') {
+            setTimeout(() => {navigate("/dashboard")}, 1000);   
+          }else {
+            setTimeout(() => {navigate("/")}, 1000);   
+
+          }
+
         }
         
-        setTimeout(() => {navigate("/rolecheck")}, 1000); 
  
         
       } catch (error) {

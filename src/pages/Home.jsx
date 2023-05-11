@@ -9,9 +9,10 @@ import Footer from '../components/Footer';
 
 
 export const Home = () => {
+  
   return (
-    <div className='overflow-x-hidden'>
-      <Navbar/>
+    <div className='overflow-x-hidden relative pt-5'>
+      <Navbar />
       <Header/>
       <WhyUs/>
       <OurCommitment/>

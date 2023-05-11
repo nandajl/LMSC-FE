@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Test() {
+export default function TestAdmin() {
   return (
     <div>Test</div>
   )
