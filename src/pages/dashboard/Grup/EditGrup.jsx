@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useGrups } from "../../../store";
 
-export default function CreateGrup() {
+export default function EditGrup() {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [name, setName] = useState("");

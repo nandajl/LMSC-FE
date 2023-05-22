@@ -9,7 +9,7 @@ export const Homepage = () => {
   const path = '/dashboard/home';
   return (
     <div className='flex relative'>
-      <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white z-10">
+      <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white z-1000">
         <Sidebar />
       </div>
       <div className='w-full h-0'>

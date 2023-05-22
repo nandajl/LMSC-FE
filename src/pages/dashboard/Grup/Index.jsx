@@ -44,9 +44,6 @@ export default function GrupAdmin() {
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
               Nama Grup
             </th>
-            {/* <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Status
-            </th> */}
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
               Kode
             </th>

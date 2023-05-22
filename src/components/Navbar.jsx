@@ -1,18 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import lms from '../assets/img/lms-transparant.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useUsers } from "../store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { CiDesktop } from "react-icons/ci";
 
 export default function Navbar() {
-  const user = useUsers((state) => state.user)
   const getUser = useUsers((state) => state.getUser)
   const deleteUser = useUsers((state) => state.deleteUser)
-  
+
+  const [user, setUser] = useState("")
+
+  const navigate = useNavigate();
+
+  async function handleGetUser(){
+    const response = await getUser()
+    setUser(response);
+  }
 
   useEffect(() => {
-    getUser('http://localhost:8000/api/v1/user');
+    handleGetUser();
   }, [])
 
   const handlleLogout = () => {
@@ -43,6 +50,9 @@ export default function Navbar() {
 
                 <DropdownMenu.Portal>
                   <DropdownMenu.Content className='w-32  bg-white rounded-md py-1 px-1'> 
+                    <DropdownMenu.Item className='items-center rounded-sm px-3 py-1 hover:bg-primary hover:outline-none'>
+                      <button onClick={()=> {navigate('/update-user')}}>Setting</button>
+                    </DropdownMenu.Item>  
                     <DropdownMenu.Item className='items-center rounded-sm px-3 py-1 hover:bg-primary hover:outline-none'>
                       <button onClick={handlleLogout}>Logout</button>
                     </DropdownMenu.Item>  
