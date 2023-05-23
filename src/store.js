@@ -52,3 +52,14 @@ export const useTests = create((set) => ({
         set({ tests: response.data.data })
     }
 }));
+
+export const useFeedback = create((set) => ({
+    feedbacks: [],
+    feedback: '',
+    getListFeedback: async (url) => {
+        const response = await axios.get(url)
+        console.log(response);
+        set({ feedbacks: response.data.data })
+    }
+}));
+

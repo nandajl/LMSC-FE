@@ -33,7 +33,7 @@ export default function MateriAdmin() {
           <AiOutlinePlusSquare className='text-5xl'/> 
         </Link>
       </div>
-      <table className="min-w-screen divide-y divide-gray-200 mt-10">
+      <table className="min-w-screen divide-y divide-gray-200 mt-10 shadow-lg">
         <thead className="bg-gray-300">
           <tr>
             <th scope="col"
@@ -66,7 +66,7 @@ export default function MateriAdmin() {
                   <td className="px-6 py-4 text-sm text-gray-800 " dangerouslySetInnerHTML={{__html: lesson.body}} />
                   <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
                     <button onClick={() => navigate('/dashboard/materi/edit/' + lesson.id)} className='border border-secondary text-secondary p-2 me-2'> <AiOutlineEdit className='text-2xl'/> </button>
-                    <button onClick={() => handleDelete(lesson.id)} className='bg-error text-white p-2 '> <AiOutlineDelete className='text-2xl'/> </button>
+                    <button onClick={() => handleDelete(lesson.id)} className='border border-error text-error p-2 '> <AiOutlineDelete className='text-2xl'/> </button>
                   </td>
                 </tr>
               ))

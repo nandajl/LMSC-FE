@@ -21,6 +21,8 @@ import FeedbackContent from './components/FeedbackContent'
 import CreateLesson from './pages/dashboard/Materi/CreateLesson'
 import CreateTest from './pages/dashboard/Test/CreateTest'
 import EditTest from './pages/dashboard/Test/EditTest'
+import SoalTest from './pages/dashboard/Test/Soal/Index'
+import CreateQuestion from './pages/dashboard/Test/Soal/Create'
 
 function App() {
 
@@ -42,6 +44,8 @@ function App() {
         <Route path='test' element={<TestAdmin/>}/>
         <Route path='test/create' element={<CreateTest/>}/>
         <Route path='test/edit/:id' element={<EditTest/>}/>
+        <Route path='test/detail/:id' element={<SoalTest/>}/>
+        <Route path='test/question/create' element={<CreateQuestion/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>
       </Route>
       <Route path='content' element={<Content />} >

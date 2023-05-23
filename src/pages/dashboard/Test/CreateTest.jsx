@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 
-export default function CreateTest(setIsAdding) {
+export default function CreateTest() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [lessons, setLessons] = useState([]);
@@ -13,7 +13,6 @@ export default function CreateTest(setIsAdding) {
     try {
       const response = await axios.get('http://localhost:8000/api/v1/lessons');
       setLessons(response.data.data)
-      console.log(lessons);
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +66,7 @@ export default function CreateTest(setIsAdding) {
           </div>
           <div className='flex justify-end mt-40'>
             <Link to='/dashboard/test'>
-              <button onClick={() => setIsAdding(false)} className='border border-secondary rounded-full p-2 text-secondary text-sm font-bold w-32 me-3'>Batal</button>
+              <button className='border border-secondary rounded-full p-2 text-secondary text-sm font-bold w-32 me-3'>Batal</button>
             </Link>
             <button type='submit' className='bg-secondary rounded-full p-2 text-white text-sm font-bold w-32'>Simpan</button>
           </div>
