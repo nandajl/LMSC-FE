@@ -33,7 +33,7 @@ export default function MateriAdmin() {
           <AiOutlinePlusSquare className='text-5xl'/> 
         </Link>
       </div>
-      <table className="min-w-screen divide-y divide-gray-200 mt-10 shadow-lg">
+      <table className="min-w-full divide-y divide-gray-200 mt-10 shadow-lg">
         <thead className="bg-gray-300">
           <tr>
             <th scope="col"

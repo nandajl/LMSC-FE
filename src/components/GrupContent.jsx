@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
-import { Table } from 'flowbite-react'
-
 
 export default function Content() {
-
+  
   
 
   return (
     <div className=''>
-      <p className='font-bold text-3xl mb-6'>Grup</p>
-      <p className='text-xl mb-14'>Anggota</p>
+      <p className='font-bold text-3xl mb-6'>Grup anda</p>
 
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">

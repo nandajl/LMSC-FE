@@ -3,11 +3,11 @@ import { AiOutlinePlusSquare, AiOutlineDelete } from 'react-icons/ai';
 
 export default function FormPilihanGanda(props) {
 
-  const [inputJawaban, setInputJawaban] = useState([{jawaban:""}])
+  const [inputJawaban, setInputJawaban] = useState([{ answer_text: "", is_correct: false }]);
   const [question, setQuestion] = useState("")
 
   const addInputField = () => {
-    setInputJawaban([...inputJawaban, {jawaban:""}])
+    setInputJawaban([...inputJawaban, { answer_text: "", is_correct: false }]);
   }
 
   const removeInputField = (index) => {
@@ -17,9 +17,12 @@ export default function FormPilihanGanda(props) {
   }
 
   const handleChange = (e, index) => {
-    let newFormValues = [...inputJawaban]
-    newFormValues[index][e.target.name] = e.target.value
-    setInputJawaban(newFormValues)
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+
+    let newFormValues = [...inputJawaban];
+    newFormValues[index][name] = newValue;
+    setInputJawaban(newFormValues);
   }
   const sendDataToParent = () => {
     const data = {
@@ -30,7 +33,7 @@ export default function FormPilihanGanda(props) {
     };
     props.sendData(data);
   };
-  
+
   useEffect(() => {
     sendDataToParent();
   }, [question, inputJawaban]);
@@ -52,26 +55,36 @@ export default function FormPilihanGanda(props) {
           Jawaban
         </label>
         <div className='w-full'>
-        {
-          inputJawaban.map((element, index) => {
-            return(
-              <div className='flex mb-2 gap-1' key={index}>
-                <input
-                  className="border border-gray-500 inline-flex h-9 w-full flex-1 items-center justify-center rounded-sm px-2 text-base leading-none outline-none"
-                  id="username"
-                  placeholder='Jawaban'
-                  value={element.jawaban || ""}
-                  name='jawaban'
-                  onChange={(e) => handleChange(e, index)}
-                />
-                <button onClick={() => removeInputField(index)}><AiOutlineDelete className='text-4xl p-1 text-error border border-error' /></button>
-              </div>
+          {
+            inputJawaban.map((element, index) => {
+              return (
+                <div className='flex mb-2 gap-1 items-center' key={index}>
+                  <input
+                    className="border border-gray-500 inline-flex h-9 w-full flex-1 items-center justify-center rounded-sm px-2 text-base leading-none outline-none"
+                    id="username"
+                    placeholder='Jawaban'
+                    value={element.answer_text || ""}
+                    name='answer_text'
+                    onChange={(e) => handleChange(e, index)}
+                  />
+                  <div className="group flex relative">
+                    <input
+                      type="checkbox"
+                      checked={element.is_correct}
+                      name="is_correct"
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                    <span class="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2 
+    -translate-x-1/2 translate-y-1/4 opacity-0 m-4 mx-auto">Kunci</span>
+                  </div>
+                  <button onClick={() => removeInputField(index)}><AiOutlineDelete className='text-4xl p-1 text-error border border-error' /></button>
+                </div>
               )
             })
           }
         </div>
       </fieldset>
-        <button onClick={addInputField} className='float-right'><AiOutlinePlusSquare className='text-4xl' /></button>
+      <button onClick={addInputField} className='float-right'><AiOutlinePlusSquare className='text-4xl' /></button>
     </>
   )
 }

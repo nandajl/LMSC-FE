@@ -31,6 +31,11 @@ export const UpdateUser = () => {
         }).then(res => {
             setId(res.data.data.id);
             setUsername(res.data.data.username);
+            setFirstName(res.data.data.firstName);
+            setLastName(res.data.data.lastName);
+            setPhone(res.data.data.phone);
+            setCompanyCode(res.data.data.company_code);
+            setAddress(res.data.data.address);
         }).catch(res => console.log(res));
     }
 
@@ -91,7 +96,7 @@ export const UpdateUser = () => {
                 </div>
                 <div className='flex flex-col mt-5'>
                     <label >Company Code</label>
-                    <input value={companyCode} onChange={e => setCompanyCode(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' required />
+                    <input value={companyCode} onChange={e => setCompanyCode(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' />
                 </div>
                 <div className='flex flex-col mt-5'>
                     <label>Alamat</label>

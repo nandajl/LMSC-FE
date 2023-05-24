@@ -1,25 +1,51 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiOutlineRefresh } from "react-icons/hi";
 import { generate } from '@wcj/generate-password';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
+import { useUsers } from "../../../store";
 
 export default function CreateGrup(setIsAdding) {
+  const getUser = useUsers((state) => state.getUser)
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
+  const [companyCode, setCompanyCode] = useState("")
+  const [companyId, setCompanyId] = useState("")
 
   async function handleSubmit(e){
     try {
       e.preventDefault();
       const data = {
         name: name,
-        code: code
+        code: code,
+        company_id: companyId
       }
       const response = await axios.post('http://localhost:8000/api/v1/grup', data);
       if (response) {
         navigate('/dashboard/grup')
       }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+    async function handleGetUser(){
+      const response = await getUser()
+      setCompanyCode(response.company_code)
+    }
+    
+    useEffect(() => {
+      handleGetUser();
+      handleGetCompanyId();
+    }, [companyCode])
+
+  async function handleGetCompanyId(){
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/company/find', {
+        company_code: companyCode
+      })
+      setCompanyId(response.data.data.id)
     } catch (error) {
       console.log(error);
     }

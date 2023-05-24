@@ -27,9 +27,9 @@ export const ModalSoal = (props) => {
         answer: data.answer
       })
       console.log(response);
-      // if (response) {
-      //   window.location.reload(false);  
-      // }
+      if (response) {
+        window.location.reload(false);  
+      }
     } catch (error) {
       console.log(error);
     }

@@ -24,16 +24,23 @@ export default function Navbar() {
 
   const handlleLogout = () => {
     localStorage.removeItem('token');
-    deleteUser;
-    window.location.reload(true);
+    deleteUser; 
+    navigate('/login');
   }
 
   return (
     <div className='flex w-screen justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 '>
       <img src={lms} alt="lms" className='hover:animate-spin'/>
       <div className='flex items-center font-semibold'>
-        <ul className='flex me-6'>
-          <li className='me-6 hover:text-white'><a href="/content/grup">Service</a></li>
+        <ul className='flex me-6 gap-5'>
+          {
+            user.role === "Perusahaan" ? (
+              <li className='hover:text-white'><a href="/dashboard">Dashboard</a></li>
+            ): (
+              <></>
+            )
+          }
+          <li className='hover:text-white'><a href="/content/grup">Service</a></li>
           <li><a href="" className='hover:text-white'>About Us</a></li>
         </ul>
         {

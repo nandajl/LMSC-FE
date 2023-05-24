@@ -65,11 +65,11 @@ export default function CreateLesson() {
 
   async function handleGetListGrup(){
     try {
+      console.log(companyCode);
       const response = await axios.post('http://localhost:8000/api/v1/grup/find', {
         companyCode : companyCode
       })
       setGrups(response.data.data)
-      console.log(grups);
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +87,7 @@ export default function CreateLesson() {
           <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="grup" className=''>Grup</label>
             <select onChange={(e) => setGrupId(e.target.value)} name="grup" id="grup" className='ms-10 w-3/4'>
-              <option value={grupId}>Pilih Grup</option>
+              <option value={grupId} hidden>Pilih Grup</option>
               {
                 grups.map(grup => <option value={grup.id} key={grup.id}>{grup.name}</option> )
               }
