@@ -9,41 +9,30 @@ import { useUsers } from "../store";
 export const RoleCheck = () => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
+  const [user, setUser] = useState("")
   
   const getUser = useUsers((state) => state.getUser);
-  const user = useUsers((state) => state.user);
+
+  async function handleGetUser(){
+    const response = await getUser('http://localhost:8000/api/v1/user')
+    console.log(response);
+    setUser(response);
+  }
   
   useEffect(() => {
-    console.log('page loaded');
-    // getUserData();
-    getUser('http://localhost:8000/api/v1/user')
+    handleGetUser();
   }, [])
-
-  function getUserData() {
-      const localToken = localStorage.getItem('token');
-      console.log(localToken);
-      axios.get("http://localhost:8000/api/v1/user", {
-       headers: {
-        Authorization: `Bearer ${localToken}` 
-       }
-      }).then(res => {
-        setId(res.data.data.id);
-      }).catch(res=> console.log(res));
-  }
 
   async function handleUpdateUser(e) {
     try {
       e.preventDefault();
-  
-      const update = e.target.innerText;
       
+      const update = e.target.innerText;
       await axios.put(`http://localhost:8000/api/v1/users/${user.id}`, {
         role: update
       }).then(res => {
         navigate('/update-user')
       });
-      
-      
     } catch (error) {
       console.log(error);
     }
