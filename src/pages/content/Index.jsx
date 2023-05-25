@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
-import GrupContent from '../../components/GrupContent'
+import GrupContent from '../../components/content/GrupContent'
 import { Outlet, Link } from 'react-router-dom'
 
 export default function Grup() {

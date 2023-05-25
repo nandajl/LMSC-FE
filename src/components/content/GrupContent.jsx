@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useUsers } from "../store";
+import { useUsers } from "../../store";
 import { AiOutlineLoading, AiOutlineCheck } from 'react-icons/ai'
 import { FcCheckmark } from 'react-icons/fc'
 import axios from 'axios';
+import Alert from '../Alert';
 
 export default function Content() {
   
@@ -13,6 +14,8 @@ export default function Content() {
   const [isDone, setIsDone] = useState(false);
   const [grupCode, setGrupCode] = useState("");
   const [grupMember, setGrupMember] = useState([]);
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState("");
 
   async function handleGetUser(){
     const response = await getUser();
@@ -38,7 +41,15 @@ export default function Content() {
         window.location.reload(true);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setIsLoading(false)
+        setError(true);
+        setMessage(error.response.data.message);
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
+      }
     }
   }
 
@@ -58,23 +69,46 @@ export default function Content() {
   useEffect(() => {
     handleGetUser();
     handleGetMemberGrup();
+  }, [])
+  
+  useEffect(() => {
+    if (user && user.group_id) {
+      handleGetMemberGrup();
+    }
   }, [user])
+
+
 
   return (
     <div className=''>
-      <p className='font-bold text-3xl mb-6'>Grup Anda</p>
+      <div className='flex mb-10 justify-between items-center'>
+        <p className='font-bold text-3xl'>Grup Anda</p>
+        {
+          user.group_id === null ? <></> : <Alert />  
+        }
+      </div>
       {
         user.group_id === null ? (
-          <div className='flex items-center gap-5'>
-            <label htmlFor="grup_code" className='w-1/4'>Input Grup Code</label>
-            <input value={grupCode} onChange={(e) => setGrupCode(e.target.value)} type="text" placeholder='Grup Code' className='w-2/4 px-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500' />
-            <button onClick={handleRollGrup} className='bg-secondary hover:bg-opacity-50 font-medium text-white px-4 py-2 rounded-lg'>Submit</button>
+          <>
+            <div className='flex items-center gap-5'>
+              <label htmlFor="grup_code" className='w-1/4'>Input Grup Code</label>
+              <input value={grupCode} onChange={(e) => setGrupCode(e.target.value)} type="text" placeholder='Grup Code' className='w-2/4 px-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500' />
+              <button onClick={handleRollGrup} className='bg-secondary hover:bg-opacity-50 font-medium text-white px-4 py-2 rounded-lg'>Submit</button>
+              {
+                isLoading ? <AiOutlineLoading className='text-3xl animate-spin' /> :
+                isDone ? <FcCheckmark className='text-3xl' /> :
+                <></>
+              }
+            </div>
             {
-              isLoading ? <AiOutlineLoading className='text-3xl animate-spin' /> :
-              isDone ? <FcCheckmark className='text-3xl' /> :
-              <></>
+              error ? (
+                <div className='text-white bg-error px-3 py-1 rounded-full font-medium float-right mt-5'>
+                  {message}
+                  <button onClick={e => setError(false)} className='px-1 ms-2'>&#x2715;</button>
+                </div>
+              ) : <></>
             }
-          </div>
+          </>
         ) : (
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">

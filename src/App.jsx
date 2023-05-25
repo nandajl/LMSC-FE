@@ -14,15 +14,16 @@ import EditMateriAdmin from "./pages/dashboard/Materi/EditLesson.jsx";
 import TestAdmin from './pages/dashboard/Test/Index'
 import CreateGrup from './pages/dashboard/Grup/CreateGrup'
 import EditGrup from './pages/dashboard/Grup/EditGrup'
-import GrupContent from './components/GrupContent'
-import MateriContent from './components/MateriContent'
-import TestContent from './components/TestContent'
-import FeedbackContent from './components/FeedbackContent'
+import GrupContent from './components/content/GrupContent'
+import MateriContent from './components/content/MateriContent'
+import TestContent from './components/content/TestContent'
+import FeedbackContent from './components/content/FeedbackContent'
 import CreateLesson from './pages/dashboard/Materi/CreateLesson'
 import CreateTest from './pages/dashboard/Test/CreateTest'
 import EditTest from './pages/dashboard/Test/EditTest'
 import SoalTest from './pages/dashboard/Test/Soal/Index'
-import CreateQuestion from './pages/dashboard/Test/Soal/Create'
+import DetailMateriContent from './components/content/DetailMateriContent'
+import DetailTestContent from './components/content/DetailTestContent'
 
 function App() {
 
@@ -45,13 +46,14 @@ function App() {
         <Route path='test/create' element={<CreateTest/>}/>
         <Route path='test/edit/:id' element={<EditTest/>}/>
         <Route path='test/detail/:id' element={<SoalTest/>}/>
-        <Route path='test/question/create' element={<CreateQuestion/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>
       </Route>
       <Route path='content' element={<Content />} >
         <Route path='grup' element={<GrupContent/>}/>
         <Route path='materi' element={<MateriContent/>}/>
+        <Route path='materi/detail/:id' element={<DetailMateriContent/>}/>
         <Route path='test' element={<TestContent/>}/>
+        <Route path='test/detail/:id' element={<DetailTestContent/>}/>
         <Route path='feedback' element={<FeedbackContent/>}/>
       </Route>
       

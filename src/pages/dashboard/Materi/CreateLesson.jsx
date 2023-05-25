@@ -69,14 +69,12 @@ export default function CreateLesson() {
       const response = await axios.post('http://localhost:8000/api/v1/grup/find', {
         companyCode : companyCode
       })
+      console.log(response.data.data);
       setGrups(response.data.data)
     } catch (error) {
       console.log(error);
     }
   }
-
-  
-``
   return (
     <div className='font-inter'>
       <div className='flex justify-between'>

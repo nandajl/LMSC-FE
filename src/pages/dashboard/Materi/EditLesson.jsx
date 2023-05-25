@@ -30,6 +30,7 @@ export default function EditLesson() {
   const [body, setBody] = useState("")
   const [title, setTitle] = useState("")
   const [grups, setGrups] = useState("")
+  const [grupId, setGrupId] = useState("")
   const [companyCode, setCompanyCode] = useState("")
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export default function EditLesson() {
         console.log("response", response);
         setTitle(response.data.data.title);
         setBody(response.data.data.body);
+        setGrupId(response.data.data.goup_id)
     } catch (error) {
         console.log(error);
     }
@@ -73,10 +75,21 @@ export default function EditLesson() {
     }
   }
 
-
+  async function handleGetListGrup(){
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/grup/find', {
+        companyCode : companyCode
+      })
+      setGrups(response.data.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     handleGetLesson();
+    handleGetUser();
+    handleGetListGrup();
   }, []);
 
   return (
@@ -88,15 +101,16 @@ export default function EditLesson() {
         <form onSubmit={handleSubmit}>
           <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="grup" className=''>Grup</label>
-            <select name="grup" id="grup" className='ms-10 w-3/4'>
+            <select name="grup" id="grup" onChange={(e) => setGrupId(e.target.value)} className='ms-10 w-3/4'>
+            <option value={grupId} hidden>Pilih Grup</option>
               {
                 grups.map(grup => <option value={grup.id} key={grup.id}>{grup.name}</option> )
               }
             </select>
           </div>
-          <div className='flex mb-4 w-full items-center'>
+          <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="name" className=''>Judul</label>
-            <input onChange={e => setTitle(e.target.value)} type="text" className='ms-10' value={title}/>
+            <input onChange={e => setTitle(e.target.value)} type="text" className='ms-10 w-3/4' value={title}/>
           </div>
           <div className='mb-4 w-full items-center mt-5'>
             <label htmlFor="Editor" className='me-40'>Isi</label>

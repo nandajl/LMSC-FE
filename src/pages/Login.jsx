@@ -33,7 +33,7 @@ export const Login = () => {
             setTimeout(() => {navigate("/rolecheck")}, 1000);   
           }
           else if (role === 'Perusahaan') {
-            setTimeout(() => {navigate("/dashboard")}, 1000);   
+            setTimeout(() => {navigate("/dashboard/grup")}, 1000);   
           }else {
             setTimeout(() => {navigate("/")}, 1000);   
 
