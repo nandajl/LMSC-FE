@@ -35,7 +35,7 @@ export default function Navbar() {
         <ul className='flex me-6 gap-5'>
           {
             user.role === "Perusahaan" ? (
-              <li className='hover:text-white'><a href="/dashboard">Dashboard</a></li>
+              <li className='hover:text-white'><a href="/dashboard/grup">Dashboard</a></li>
             ): (
               <></>
             )

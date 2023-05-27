@@ -8,8 +8,13 @@ export default function CreateTest() {
   const [lessons, setLessons] = useState([]);
   const [lessonId, setLessonId] = useState("");
   const [description, setDescription] = useState("")
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("")
+  const [availableFrom, setAvailableFrom] = useState("");
+  const [availableTo, setAvailableTo] = useState("");
 
-  async function handleGetListLesson(){
+  async function handleGetListLesson() {
     try {
       const response = await axios.get('http://localhost:8000/api/v1/lessons');
       setLessons(response.data.data)
@@ -18,17 +23,33 @@ export default function CreateTest() {
     }
   }
 
+  function padZero(value) {
+    // Menambahkan nol di depan nilai jika nilai kurang dari 10
+    return value < 10 ? `0${value}` : value;
+  }
+
+  function convertTime(hours, minutes, seconds) {
+    // Mengonversi input ke dalam format waktu yang sesuai
+    const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+  
+    return formattedTime;
+  }
+
   useEffect(() => {
     handleGetListLesson();
   }, [])
 
-  async function handleSubmit(e){
+  async function handleSubmit(e) {
     try {
       e.preventDefault();
+      const time = convertTime(hours, minutes, seconds);
       const data = {
         title: title,
         description: description,
-        lessons_id: lessonId
+        lessons_id: lessonId,
+        time: time,
+        availableFrom: availableFrom,
+        availableTo: availableTo
       }
       console.log(data);
       const response = await axios.post('http://localhost:8000/api/v1/test', data);
@@ -52,17 +73,33 @@ export default function CreateTest() {
             <select onChange={(e) => setLessonId(e.target.value)} name="lesson" id="lesson" className='ms-10 w-2/4'>
               <option value={lessonId} hidden>Pilih Materi</option>
               {
-                lessons.map(lesson => <option value={lesson.id} key={lesson.id}>{lesson.title}</option> )
+                lessons.map(lesson => <option value={lesson.id} key={lesson.id}>{lesson.title}</option>)
               }
             </select>
           </div>
           <div className='flex mb-4  w-2/3 items-center'>
             <label htmlFor="title" className=''>Judul Test</label>
-            <input  type="text" className='ms-auto w-1/2' value={title} onChange={e => setTitle(e.target.value)}/>
+            <input type="text" className='ms-auto w-1/2' value={title} onChange={e => setTitle(e.target.value)} />
           </div>
           <div className='flex mb-4 w-2/3 items-center justify-between'>
             <label htmlFor="description" className='me-40'>Deskripsi</label>
-            <textarea type="text" className='w-1/2' value={description} onChange={e => setDescription(e.target.value)}/>
+            <textarea type="text" className='w-1/2' value={description} onChange={e => setDescription(e.target.value)} />
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="time-input">Durasi</label>
+            <div className='flex gap-2'>
+              <input onChange={(e) => setHours(e.target.value)} type="number" id="hour-input" name="hour-input" min="0" max="23" step="1" placeholder="JJ" required />
+              <input onChange={(e) => setMinutes(e.target.value)} type="number" id="minute-input" name="minute-input" min="0" max="59" step="1" placeholder="MM" required />
+              <input onChange={(e) => setSeconds(e.target.value)} type="number" id="seconds-input" name="seconds-input" min="0" max="59" step="1" placeholder="DD" required />
+            </div>
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="waktu">Waktu mulai</label>
+            <input onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="waktu">Waktu selesai</label>
+            <input onChange={(e) => setAvailableTo(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
           </div>
           <div className='flex justify-end mt-40'>
             <Link to='/dashboard/test'>
@@ -73,6 +110,6 @@ export default function CreateTest() {
         </form>
       </div>
     </div>
-    
+
   )
 }

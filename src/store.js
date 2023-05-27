@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 const token = localStorage.getItem('token'); 
 export const useUsers = create((set) => ({
+    user: [],
     getUser: async () => {
         const token = localStorage.getItem('token'); 
         const response = await axios.get('http://localhost:8000/api/v1/user', {
@@ -10,9 +11,9 @@ export const useUsers = create((set) => ({
              Authorization: `Bearer ${token}` 
             }
         })
+        set({ user: response.data.data })
         return response.data.data
     },
-    user: [],
     getCompanyCode: async () => {
         const token = localStorage.getItem('token'); 
         const response = await axios.get('http://localhost:8000/api/v1/user', {
@@ -58,8 +59,8 @@ export const useFeedback = create((set) => ({
     feedback: '',
     getListFeedback: async (url) => {
         const response = await axios.get(url)
-        console.log(response);
         set({ feedbacks: response.data.data })
+        return response.data.data
     }
 }));
 

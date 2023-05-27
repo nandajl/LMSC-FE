@@ -3,17 +3,25 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { useFeedback } from '../../../store'
 import axios from 'axios';
+import { useState } from 'react';
 
 export default function MateriAdmin() {
   
-  const feedbacks = useFeedback((state) => state.feedbacks);
   const getListFeedback = useFeedback((state) => state.getListFeedback);
+
+  const [feedback, setFeedback] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getListFeedback('http://localhost:8000/api/v1/feedback')
+    handleGetFeedback();
   }, [])
+
+  async function handleGetFeedback() {
+    const response = await getListFeedback('http://localhost:8000/api/v1/feedback')
+    console.log(response);
+    setFeedback(response);
+  }
   
   async function handleDelete(id){
     try {
@@ -43,7 +51,10 @@ export default function MateriAdmin() {
               User
             </th>
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Subjek
+              Kategori
+            </th>
+            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+              Nilai
             </th>
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
               Pesan
@@ -55,8 +66,8 @@ export default function MateriAdmin() {
         </thead>
         <tbody className="w-full divide-y divide-gray-200 ">
           {
-            feedbacks.length > 0 ? (
-              feedbacks.map((feedback, index) => (
+            feedback.length > 0 ? (
+              feedback.map((feedback, index) => (
                 <tr className='bg-white' key={feedback.id}>
                   <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                     {index + 1}
@@ -65,7 +76,10 @@ export default function MateriAdmin() {
                     {feedback.User.username}  
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {feedback.subject}  
+                    {feedback.FeedbackCat.name}  
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {feedback.nilai}  
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                     {feedback.message}  

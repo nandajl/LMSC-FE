@@ -6,6 +6,7 @@ export default function DetailTestContent() {
 
   const { id } = useParams();
   const [test, setTest] = useState("")
+  const [dateTime, setDateTime] = useState(new Date())
 
   async function handleGetTest() {
     try {
@@ -20,7 +21,51 @@ export default function DetailTestContent() {
     handleGetTest();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  function cleanDateTime(datetimeStr) {
+    const datetime = new Date(datetimeStr);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: 'numeric', minute: 'numeric' };
+    const dateStr = datetime.toLocaleDateString(undefined, dateOptions);
+    const timeStr = datetime.toLocaleTimeString(undefined, timeOptions);
+    return `${dateStr} ${timeStr}`;
+  }
+
+
   return (
-    <div>DetailTestContent {id}</div>
+    <div className='flex flex-col justify-center h-full text-center'>
+      <div className='w-2/4 mx-auto rounded-3xl bg-blue-200 p-10 shadow-lg'>
+        <p className=' font-bold text-2xl capitalize mb-2'>{test.title} </p>
+        <p className=' font-meduim text-lg capitalize mb-5'>{test.description} </p>
+        <div className='flex justify-between'>
+          <p className='text-base capitalize'>Waktu mulai ujian </p>
+          <p className='font-medium'>{cleanDateTime(test.availableFrom)}</p>
+        </div>
+        <div className='flex justify-between'>
+          <p className='text-base capitalize mb-5'>Waktu selesai ujian </p>
+          <p className='font-medium'>{cleanDateTime(test.availableTo)}</p>
+        </div>
+        <p className='text-base capitalize mb-5'>Durasi : <span className='font-medium'>{test.time}</span></p>
+        {
+          dateTime < new Date(test.availableFrom) ? (
+            <p className='text-red-500'>Ujian belum tersedia</p>
+          ) : dateTime > new Date(test.availableTo) ? (
+            <p className='text-red-500'>Ujian telah berakhir</p>
+          ) :
+          (
+            <button className='bg-info text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-blue-500'>Mulai</button> 
+          )
+        }
+      </div>
+    </div>
   )
 }

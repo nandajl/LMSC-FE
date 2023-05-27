@@ -27,6 +27,15 @@ export default function MateriAdmin() {
     }
   }
 
+  function cleanDateTime(datetimeStr) {
+    const datetime = new Date(datetimeStr);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const dateStr = datetime.toLocaleDateString(undefined, dateOptions);
+    const timeStr = datetime.toLocaleTimeString(undefined, timeOptions);
+    return `${dateStr} ${timeStr}`;
+  }
+  
   return (
     <div className='font-inter'>
       <div className='flex justify-between'>
@@ -47,7 +56,13 @@ export default function MateriAdmin() {
               Judul
             </th>
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Deskripsi
+              Durasi
+            </th>
+            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+              Waktu Mulai
+            </th>
+            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+              Waktu Selesai
             </th>
             <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
               Aksi
@@ -66,7 +81,13 @@ export default function MateriAdmin() {
                     {test.title}  
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {test.description}  
+                    {test.time}  
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {cleanDateTime(test.availableFrom)}  
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {cleanDateTime(test.availableTo)}  
                   </td>
                   <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
                     <button onClick={() => navigate('/dashboard/test/edit/' + test.id)} className='border border-secondary shadow-lg text-secondary p-2 me-2'> <AiOutlineEdit className='text-2xl'/> </button>
