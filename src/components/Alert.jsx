@@ -3,7 +3,8 @@ import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import axios from 'axios';
 import { useUsers } from "../store";
 
-export default function Alert() {
+export default function Alert(props) {
+  const { type, submit, onClick } = props;
 
   const getUser = useUsers((state) => state.getUser);
 
@@ -24,15 +25,24 @@ export default function Alert() {
       console.log(error);
     }
   }
+
+  const handleClick = () => {
+    onClick();
+  }
   
   useEffect(() => {
     handleGetUser();
+    console.log(type);
   }, [])
 
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
-        <button className='bg-error hover:bg-opacity-50 font-medium text-white px-4 py-2 rounded-lg'>Unroll Grup</button>
+        <button type={type} className={`${type === 'endExam' ? 'bg-amber-400' : 'bg-error'}  hover:bg-opacity-50 font-medium text-white px-4 py-2 rounded-lg`}>
+          {
+            type === 'endExam' ? 'End Exam' : 'Unroll Grup'
+          }
+        </button>
       </AlertDialog.Trigger>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="bg-black opacity-50 fixed inset-0" />
@@ -41,7 +51,9 @@ export default function Alert() {
             Apakah Kamu Yakin?
           </AlertDialog.Title>
           <AlertDialog.Description className="text-mauve11 mt-4 mb-5 text-[15px] leading-normal">
-            Dengan ini kamu akan mengunroll grup ini.
+            {
+              type === 'endExam' ? 'Dengan ini kamu akan mengakhiri ujian ini' : 'Dengan ini kamu akan mengunroll grup ini.'
+            }
           </AlertDialog.Description>
           <div className="flex justify-end gap-5">
             <AlertDialog.Cancel asChild>
@@ -50,8 +62,15 @@ export default function Alert() {
               </button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <button onClick={handleUnrollGrup} className="text-red-600 bg-red-100 hover:bg-red-300 focus:shadow-red-600 inline-flex h-9 items-center justify-center rounded-md px-4 font-medium leading-none outline-none ">
-                Yes, Unroll Grup
+              <button 
+                onClick={() => {
+                    type === 'endExam' ? handleClick()  : handleUnrollGrup();
+                  }
+                } 
+                className="text-red-600 bg-red-100 hover:bg-red-300 focus:shadow-red-600 inline-flex h-9 items-center justify-center rounded-md px-4 font-medium leading-none outline-none ">
+                {
+                  type === 'endExam' ? 'Ya, Akhiri Ujian' : 'Yes, Unroll Grup'
+                }
               </button>
             </AlertDialog.Action>
           </div>

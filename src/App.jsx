@@ -24,6 +24,7 @@ import EditTest from './pages/dashboard/Test/EditTest'
 import SoalTest from './pages/dashboard/Test/Soal/Index'
 import DetailMateriContent from './components/content/DetailMateriContent'
 import DetailTestContent from './components/content/DetailTestContent'
+import { Assigment } from './components/content/Assignment'
 
 function App() {
 
@@ -56,6 +57,8 @@ function App() {
         <Route path='test/detail/:id' element={<DetailTestContent/>}/>
         <Route path='feedback' element={<FeedbackContent/>}/>
       </Route>
+      <Route path='test/assignment/:id' element={<Assigment/>}/>
+
       
 
     </Routes>

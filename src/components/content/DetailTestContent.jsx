@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function DetailTestContent() {
 
   const { id } = useParams();
   const [test, setTest] = useState("")
   const [dateTime, setDateTime] = useState(new Date())
+
+  const navigate = useNavigate();
 
   async function handleGetTest() {
     try {
@@ -40,6 +42,9 @@ export default function DetailTestContent() {
     return `${dateStr} ${timeStr}`;
   }
 
+  const handleAssinment = () => {
+    navigate('/test/assignment/' + id, { state: test.time });
+  }
 
   return (
     <div className='flex flex-col justify-center h-full text-center'>
@@ -62,7 +67,7 @@ export default function DetailTestContent() {
             <p className='text-red-500'>Ujian telah berakhir</p>
           ) :
           (
-            <button className='bg-info text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-blue-500'>Mulai</button> 
+            <button onClick={handleAssinment} className='bg-info text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-blue-500'>Mulai</button> 
           )
         }
       </div>

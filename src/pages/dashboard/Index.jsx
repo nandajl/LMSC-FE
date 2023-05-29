@@ -14,7 +14,7 @@ export const Homepage = () => {
       </div>
       <div className='w-full h-0'>
         <Navbar/>
-        <div className='relative left-72 px-16 pt-20 w-4/5 z-0 mt-20 bg-slate-100 h-screen'>
+        <div className='relative left-72 px-16 pt-20 w-4/5 z-0 mt-20 bg-slate-100 min-h-screen'>
             <Outlet />
         </div>
       </div>
