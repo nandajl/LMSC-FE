@@ -25,6 +25,10 @@ import SoalTest from './pages/dashboard/Test/Soal/Index'
 import DetailMateriContent from './components/content/DetailMateriContent'
 import DetailTestContent from './components/content/DetailTestContent'
 import { Assigment } from './components/content/Assignment'
+import { AnggotaGrup } from "./pages/dashboard/Grup/Anggota/Index";
+import { DetailAnggota } from "./pages/dashboard/Grup/Anggota/DetailAnggota";
+import { DetailJawabanTest } from "./pages/dashboard/Grup/Anggota/DetailJawabanTest";
+import { Company } from "./pages/dashboard/Company/index";
 
 function App() {
 
@@ -40,6 +44,9 @@ function App() {
         <Route path='grup' element={<GrupAdmin/>}/>
         <Route path='grup/create/' element={<CreateGrup/>}/>
         <Route path='grup/edit/:id' element={<EditGrup/>}/>
+        <Route path='grup/anggota/:id' element={<AnggotaGrup/>}/>
+        <Route path='grup/anggota/detail/:id' element={<DetailAnggota/>}/>
+        <Route path='grup/anggota/jawaban/:id' element={<DetailJawabanTest/>}/>
         <Route path='materi' element={<MateriAdmin/>}/>
         <Route path='materi/create/' element={<CreateLesson/>}/>
         <Route path='materi/edit/:id' element={<EditMateriAdmin/>}/>
@@ -48,6 +55,7 @@ function App() {
         <Route path='test/edit/:id' element={<EditTest/>}/>
         <Route path='test/detail/:id' element={<SoalTest/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>
+        <Route path='company' element={<Company/>}/>
       </Route>
       <Route path='content' element={<Content />} >
         <Route path='grup' element={<GrupContent/>}/>

@@ -5,11 +5,13 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUsers } from "../store";
+import { generate } from '@wcj/generate-password';
 
 export const RoleCheck = () => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [user, setUser] = useState("")
+  const [companyId, setCompanyId] = useState("")
   
   const getUser = useUsers((state) => state.getUser);
 
@@ -21,18 +23,37 @@ export const RoleCheck = () => {
   
   useEffect(() => {
     handleGetUser();
-  }, [])
+  }, []);
+
+  const handleCreateCompany = async () => {
+    try {
+      const code = generate({ length: 6, special: false, lowerCase: false });
+      const response = await axios.post('http://localhost:8000/api/v1/company', {
+        name: "",
+        company_code: code
+      })
+      return response.data.data.company_code
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleUpdateUser(e) {
     try {
       e.preventDefault();
       
       const update = e.target.innerText;
-      await axios.put(`http://localhost:8000/api/v1/users/${user.id}`, {
+      const result = await axios.put(`http://localhost:8000/api/v1/users/${user.id}`, {
         role: update
-      }).then(res => {
-        navigate('/update-user')
-      });
+      })
+      if (update === "Perusahaan") {
+        const company_code = await handleCreateCompany();
+        console.log(companyId);
+        navigate(`/update-user?company_code=${company_code}`) 
+        return
+      }
+      navigate('/update-user')
+
     } catch (error) {
       console.log(error);
     }

@@ -3,9 +3,10 @@ import lms from '../assets/img/lms-transparant.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUsers } from "../store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { CiDesktop } from "react-icons/ci";
+import { RxHamburgerMenu } from "react-icons/rx";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const {  toggledSidebar, setToggledSidebar } = props;
   const getUser = useUsers((state) => state.getUser)
   const deleteUser = useUsers((state) => state.deleteUser)
 
@@ -29,8 +30,13 @@ export default function Navbar() {
   }
 
   return (
-    <div className='flex w-screen justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 '>
-      <img src={lms} alt="lms" className='hover:animate-spin'/>
+    <div className='flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 '>
+      <div className={toggledSidebar ? 'flex gap-44' : 'flex gap-5'}>
+        <Link to={'/'}>
+          <img src={lms} alt="lms" className='hover:animate-spin'/>
+        </Link>
+        <button className='text-white text-sm font-bold' onClick={() => setToggledSidebar(!props.toggledSidebar)}><RxHamburgerMenu className='text-3xl' /></button>
+      </div>
       <div className='flex items-center font-semibold'>
         <ul className='flex me-6 gap-5'>
           {
@@ -52,7 +58,10 @@ export default function Navbar() {
             <div>
               <DropdownMenu.Root className>
                 <DropdownMenu.Trigger className='flex items-center hover:text-white active:outline-none px-2'>
-                  {user.firstName} {user.lastName} <CiDesktop className='text-3xl ms-3'/>
+                  {user.firstName} {user.lastName} 
+                  {
+                    user.photo ? <img src={user.photo} alt="profile" className='w-12 h-12 rounded-full ms-4' /> : <></>
+                  }
                 </DropdownMenu.Trigger>
 
                 <DropdownMenu.Portal>

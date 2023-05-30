@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { AiOutlinePlusSquare, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
+import { BiFileFind } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGrups } from "../../../store";
 import axios from 'axios';
@@ -66,9 +67,10 @@ export default function GrupAdmin() {
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                     {grup.code}
                   </td>
-                  <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
-                    <button onClick={() => navigate('/dashboard/grup/edit/' + grup.id)} className='border border-secondary text-secondary p-2 me-2'> <AiOutlineEdit className='text-2xl'/> </button>
+                  <td className="flex gap-2 px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
+                    <button onClick={() => navigate('/dashboard/grup/edit/' + grup.id)} className='border border-secondary text-secondary p-2 '> <AiOutlineEdit className='text-2xl'/> </button>
                     <button onClick={() => handleDelete(grup.id)} className='border border-error text-error p-2 '> <AiOutlineDelete className='text-2xl'/> </button>
+                    <button onClick={() => navigate('/dashboard/grup/anggota/' + grup.id)} className='bg-secondary text-white p-2 shadow-lg'> <BiFileFind className='text-2xl'/> </button>
                   </td>
                 </tr>
               ))
