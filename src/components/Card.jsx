@@ -18,7 +18,7 @@ export default function Card(props) {
     return (
       <div className='w-48 h-48 rounded-lg shadow-lg bg-blue-200 p-4 hover:-translate-y-4 hover:duration-200'>
         <h1 className='font-bold text-xl capitalize mb-3'>{props.lesson.title}</h1>
-        {makeExcerpt(props.lesson.body, 140)}
+        {makeExcerpt(props.lesson.body, 100)}
       </div>
     )
   }

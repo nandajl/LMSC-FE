@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useUsers } from "../../store";
 import axios from 'axios';
-import { FaRegSmileWink } from "react-icons/fa";
+import { FaRegSmileWink, FaRegSmile } from "react-icons/fa";
 import ModalFeedback from '../ModalFeedback';
 import { AiOutlineDelete } from "react-icons/ai";
 
@@ -23,6 +23,15 @@ export default function FeedbackContent() {
       });
       console.log(response.data.data);
       setFeedback(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/api/v1/feedback/${id}`);
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +89,9 @@ export default function FeedbackContent() {
                         {feedback.FeedbackCat.name}  
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        {feedback.nilai}  
+                        {
+                          feedback.nilai === 1 ? '😔' : feedback.nilai === 2 ? '☹' : feedback.nilai === 3 ? '😐' : feedback.nilai === 4 ? '😄' : '😍' 
+                        }  
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                         {feedback.message}

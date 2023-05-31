@@ -8,17 +8,75 @@ export default function EditTest() {
   const [lessons, setLessons] = useState([]);
   const [lessonId, setLessonId] = useState("");
   const [description, setDescription] = useState("");
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("")
+  const [availableFrom, setAvailableFrom] = useState("");
+  const [availableTo, setAvailableTo] = useState("");
   const { id } = useParams();
 
+
+  
+  function formatDate(date) {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const hour = String(dateObj.getHours()).padStart(2, "0");
+    const minute = String(dateObj.getMinutes()).padStart(2, "0");
+    const second = String(dateObj.getSeconds()).padStart(2, "0");
+    const millisecond = String(dateObj.getMilliseconds()).padStart(3, "0");
+  
+    let formattedDate = `${year}-${month}-${day}T${hour}:${minute}`;
+  
+    if (second !== "00") {
+      formattedDate += `:${second}`;
+    }
+  
+    if (millisecond !== "000") {
+      formattedDate += `.${millisecond}`;
+    }
+  
+    return formattedDate;
+  }
+
+  function splitTime(time) {
+    const [hour, minute, second] = time.split(":");
+    return {
+      hour: parseInt(hour),
+      minute: parseInt(minute),
+      second: parseInt(second),
+    };
+  }
+  
   async function handleGetTest(){
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/test/${id}`);
       setTitle(response.data.data.title);
       setDescription(response.data.data.description);
       setLessonId(response.data.data.lessons_id);
+      setAvailableFrom(formatDate(response.data.data.availableFrom));
+      setAvailableTo(formatDate(response.data.data.availableTo));
+      const { hour, minute, second } = splitTime(response.data.data.time);
+      setHours(hour);
+      setMinutes(minute);
+      setSeconds(second);
     } catch (error) {
       console.log(error);
     }
+  }
+  
+
+  function padZero(value) {
+    // Menambahkan nol di depan nilai jika nilai kurang dari 10
+    return value < 10 ? `0${value}` : value;
+  }
+
+  function convertTime(hours, minutes, seconds) {
+    // Mengonversi input ke dalam format waktu yang sesuai
+    const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+  
+    return formattedTime;
   }
 
   async function handleGetListLesson(){
@@ -39,13 +97,17 @@ export default function EditTest() {
   async function handleSubmit(e){
     try {
       e.preventDefault();
+      const time = convertTime(hours, minutes, seconds);
       const data = {
         title: title,
         description: description,
-        lessons_id: lessonId
+        lessons_id: lessonId,
+        time: time,
+        availableFrom: availableFrom,
+        availableTo: availableTo
       }
       console.log(data);
-      const response = await axios.post('http://localhost:8000/api/v1/test', data);
+      const response = await axios.put('http://localhost:8000/api/v1/test/'+id, data);
       if (response) {
         navigate('/dashboard/test')
       }
@@ -77,6 +139,22 @@ export default function EditTest() {
           <div className='flex mb-4 w-2/3 items-center justify-between'>
             <label htmlFor="description" className='me-40'>Deskripsi</label>
             <textarea type="text" className='w-1/2' value={description} onChange={e => setDescription(e.target.value)}/>
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="time-input">Durasi</label>
+            <div className='flex gap-2'>
+              <input value={hours} onChange={(e) => setHours(e.target.value)} type="number" id="hour-input" name="hour-input" min="0" max="23" step="1" placeholder="JJ" required />
+              <input value={minutes} onChange={(e) => setMinutes(e.target.value)} type="number" id="minute-input" name="minute-input" min="0" max="59" step="1" placeholder="MM" required />
+              <input value={seconds} onChange={(e) => setSeconds(e.target.value)} type="number" id="seconds-input" name="seconds-input" min="0" max="59" step="1" placeholder="DD" required />
+            </div>
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="waktu">Waktu mulai</label>
+            <input value={availableFrom} onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
+          </div>
+          <div className='flex mb-4 w-2/3 items-center justify-between'>
+            <label htmlFor="waktu">Waktu selesai</label>
+            <input value={availableTo} onChange={(e) => setAvailableTo(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
           </div>
           <div className='flex justify-end mt-40'>
             <Link to='/dashboard/test'>
