@@ -83,7 +83,6 @@ export default function Index() {
                     {question.question_text}  
                   </td>
                   <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
-                    <button onClick={() => navigate('/dashboard/test/question/edit/' + question.id)} className='border border-secondary text-secondary p-2 me-2'> <AiOutlineEdit className='text-2xl'/> </button>
                     <button onClick={() => handleDelete(question.id)} className='border border-error text-error p-2 me-2'> <AiOutlineDelete className='text-2xl'/> </button>
                   </td>
                 </tr>

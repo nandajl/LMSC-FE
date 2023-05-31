@@ -15,7 +15,7 @@ export const Homepage = () => {
         <Sidebar />
       </div>
       <div className='w-full h-0'>
-        <Navbar toggledSidebar={toggledSidebar} setToggledSidebar={setToggledSidebar} />
+        <Navbar toggledSidebar={toggledSidebar} setToggledSidebar={setToggledSidebar} dashboard={true} />
         <div className={`${toggledSidebar ? 'w-4/5 left-72 min-h-screen bg-slate-100' : 'w-full min-h-screen bg-slate-100'} relative px-16 pt-20 w-4/5 -z-10 mt-20 overflow-hidden }`}>
             <Outlet />
         </div>

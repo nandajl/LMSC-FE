@@ -123,7 +123,8 @@ export const UpdateUser = () => {
                             <input value={lastName} onChange={e => setLastName(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 w-1/2 ' required />
                         </div>
                     </div>
-                    <div className='px-5'>
+                    <div className='px-5 text-center'>
+                        <label htmlFor="image">User Image</label>
                         <img src={previewImage}  className={`${selectedImage ? "w-32 h-32 border rounded-full align-middle mx-auto mb-3" : "w-32 h-32 border border-secondary rounded-full align-middle mx-auto mb-3"}`}/>
                         <input type="file" accept='image/*' onChange={handleImageChange} className='border rounded-full'/>
                     </div>
@@ -140,14 +141,13 @@ export const UpdateUser = () => {
                             <label >Company Code</label>
                             <input value={companyCode} onChange={e => setCompanyCode(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' />
                         </div>
-                        
                     )
                 }
                 <div className='flex flex-col mt-5'>
                     <label>Alamat</label>
                     <textarea value={address} onChange={e => setAddress(e.target.value)} type="text" className='border border-secondary rounded-3xl px-4 py-3 mt-2 h-32' required />
                 </div>
-                <button className='bg-secondary rounded-full p-2 float-right text-white text-sm font-bold w-40 mt-5'>Submit</button>
+                <button className='bg-secondary rounded-full p-2 float-right text-white text-sm font-bold w-40 mt-5 hover:bg-blue-900'>Submit</button>
             </form>
         </div>
     )

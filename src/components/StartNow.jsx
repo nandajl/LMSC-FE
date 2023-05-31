@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function StartNow() {
   return (
@@ -8,7 +9,9 @@ export default function StartNow() {
             <p>Bersama kami, mari tingkatkan skill dan bakatmu</p>
         </div>
         <div>
+          <Link to='/content/grup'>
             <button className='bg-secondary rounded-full p-2 mt-10 lg:mt-0 text-white text-sm font-bold w-40 '>Mulai</button>
+          </Link>
         </div>
     </div>
   )

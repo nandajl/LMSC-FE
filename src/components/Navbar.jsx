@@ -6,7 +6,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function Navbar(props) {
-  const {  toggledSidebar, setToggledSidebar } = props;
+  const {  toggledSidebar, setToggledSidebar, dashboard } = props;
   const getUser = useUsers((state) => state.getUser)
   const deleteUser = useUsers((state) => state.deleteUser)
 
@@ -35,19 +35,23 @@ export default function Navbar(props) {
         <Link to={'/'}>
           <img src={lms} alt="lms" className='hover:animate-spin'/>
         </Link>
-        <button className='text-white text-sm font-bold' onClick={() => setToggledSidebar(!props.toggledSidebar)}><RxHamburgerMenu className='text-3xl' /></button>
+        {
+          dashboard ? (
+            <button className='text-white text-sm font-bold' onClick={() => setToggledSidebar(!props.toggledSidebar)}><RxHamburgerMenu className='text-3xl' /></button>
+          ) : <></>
+        }
       </div>
       <div className='flex items-center font-semibold'>
         <ul className='flex me-6 gap-5'>
           {
             user.role === "Perusahaan" ? (
-              <li className='hover:text-white'><a href="/dashboard/grup">Dashboard</a></li>
+              <li className='hover:text-white'><Link to={'/dashboard/grup'}>Dashboard</Link></li>
             ): (
               <></>
             )
           }
-          <li className='hover:text-white'><a href="/content/grup">Service</a></li>
-          <li><a href="" className='hover:text-white'>About Us</a></li>
+          <li className='hover:text-white'><Link to={'/content/grup'}> Service</Link></li>
+          {/* <li><a href="" className='hover:text-white'>About Us</a></li> */}
         </ul>
         {
           user.length == 0  ? (

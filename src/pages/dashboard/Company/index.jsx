@@ -74,7 +74,11 @@ export const Company = () => {
         </div>
       </div>
       <div className='flex w-10/12 mt-10 mx-auto '>
-        <button className='bg-secondary rounded-full p-2 w-28 text-white text-sm font-bold me-2' onClick={() => setEdit((prev) => !prev)}>Edit</button>
+        <button className='bg-secondary rounded-full p-2 w-28 text-white text-sm font-bold me-2' onClick={() => setEdit((prev) => !prev)}>
+          {
+            edit ? "Batal" : "Edit"
+          }
+        </button>
         {
           edit ? <button className='bg-secondary rounded-full p-2 w-28 text-white text-sm font-bold' onClick={handleSubmit}>Simpan</button> : <></>
         }

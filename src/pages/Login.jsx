@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import work from '../../src/assets/img/work.png'
 import lms from '../../src/assets/img/lms.png'
 import { Link, redirect, useNavigate } from 'react-router-dom'
@@ -13,6 +13,18 @@ export const Login = () => {
     const [message, setMessage] =useState("");
 
     const navigate = useNavigate();
+
+    const handleGetLocalStorang = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/");
+      }
+    }
+
+    useEffect(() => {
+      handleGetLocalStorang();
+    }, [])
+
     async function handleLogin(e) {
       try {
         e.preventDefault();
@@ -38,11 +50,7 @@ export const Login = () => {
             setTimeout(() => {navigate("/")}, 1000);   
 
           }
-
         }
-        
- 
-        
       } catch (error) {
         const dataError = error.response.data.message;
         setError(dataError);

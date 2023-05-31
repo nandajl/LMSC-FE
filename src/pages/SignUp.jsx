@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import work from '../../src/assets/img/work.png'
 import lms from '../../src/assets/img/lms.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -14,6 +14,17 @@ export const SignUp = () => {
     const [message, setMessage] =useState("");
 
     const navigate = useNavigate();
+
+    const handleGetLocalStorang = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/");
+      }
+    }
+
+    useEffect(() => {
+      handleGetLocalStorang();
+    }, [])
 
     function checkPassword(password, confirmPassword) {
       if (password !== confirmPassword) {
