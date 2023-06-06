@@ -46,6 +46,7 @@ export const DetailAnggota = () => {
 
   useEffect(() => {
     if (userAnswer !== null) {
+      console.log(handleGetTest(userAnswer));
       setUserTest(handleGetTest(userAnswer));
     }
   }, [userAnswer])
@@ -77,13 +78,13 @@ export const DetailAnggota = () => {
               userTest.map((test, index) => (
                 <tr className='bg-white' key={test.id}>
                   <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                    {index + 1}
+                    {index + 1} 
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                     {test.Test.title}  
                   </td>
                   <td className="flex gap-2 px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
-                    <button onClick={() => navigate('/dashboard/grup/anggota/jawaban/' + test.id)} className='bg-secondary text-white p-2 shadow-lg'> <BiFileFind className='text-2xl'/> </button>
+                    <button onClick={() => navigate('/dashboard/grup/anggota/jawaban/' + test.Test.id)} className='bg-secondary text-white p-2 shadow-lg'> <BiFileFind className='text-2xl'/> </button>
                   </td>
                 </tr>
               ))

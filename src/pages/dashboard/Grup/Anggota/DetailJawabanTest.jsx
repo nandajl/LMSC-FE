@@ -6,6 +6,7 @@ export const DetailJawabanTest = () => {
   const { id } = useParams();
 
   const [userAnswer, setUserAnswer] = useState([]);
+  const [userAnswerFilter, setUserAnswerFilter] = useState([]);
   const [userTest, setUserTest] = useState([]);
 
   const handleGetTestMember = async () => {
@@ -13,6 +14,7 @@ export const DetailJawabanTest = () => {
       const response = await axios.post(`http://localhost:8000/api/v1/user/answer/find`, {
         user_id: id
       });
+      console.log(response.data);
       setUserAnswer(response.data);
     } catch (error) {
       console.log(error);
@@ -26,12 +28,12 @@ export const DetailJawabanTest = () => {
     const filter = userAnswer.filter((test) => test.test_id == id);
     return filter;
   };
-
-
+  
   useEffect(() => {
     if (userAnswer !== null) {
       const filteredData = handleGetTest(userAnswer, id);
-      setUserAnswer(filteredData);
+      console.log(filteredData);
+      setUserAnswerFilter(filteredData);
     }
   }, [userAnswer, id])
 
@@ -58,8 +60,8 @@ export const DetailJawabanTest = () => {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {
-            userAnswer.length > 0 ? (
-              userAnswer.map((answer, index) => (
+            userAnswerFilter.length > 0 ? (
+              userAnswerFilter.map((answer, index) => (
                 <tr className='bg-white' key={answer.id}>
                   <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                     {index + 1}

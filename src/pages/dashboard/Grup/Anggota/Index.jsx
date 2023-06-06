@@ -21,6 +21,19 @@ export const AnggotaGrup = () => {
     }
   }
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.put(`http://localhost:8000/api/v1/users/${id}`, {
+        group_id : null
+      });
+      if (response) {
+        window.location.reload(true);  
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     handleGetMemberGrup();
   }, [])

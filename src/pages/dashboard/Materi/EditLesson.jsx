@@ -80,6 +80,7 @@ export default function EditLesson() {
       const response = await axios.post('http://localhost:8000/api/v1/grup/find', {
         companyCode : companyCode
       })
+      console.log(response.data.data);
       setGrups(response.data.data)
     } catch (error) {
       console.log(error);
@@ -104,6 +105,7 @@ export default function EditLesson() {
             <select name="grup" id="grup" onChange={(e) => setGrupId(e.target.value)} className='ms-10 w-3/4'>
             <option value={grupId} hidden>Pilih Grup</option>
               {
+                grups &&
                 grups.map(grup => <option value={grup.id} key={grup.id}>{grup.name}</option> )
               }
             </select>
