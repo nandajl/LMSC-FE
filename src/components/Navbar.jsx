@@ -11,6 +11,7 @@ export default function Navbar(props) {
   const deleteUser = useUsers((state) => state.deleteUser)
 
   const [user, setUser] = useState("")
+  const [scrolled, setScrolled] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,6 +19,17 @@ export default function Navbar(props) {
     const response = await getUser()
     setUser(response);
   }
+
+  useEffect(() => {
+    window.onscroll = function() {
+      if (window.scrollY > 100) {
+        setScrolled(true);
+      }
+      else{
+        setScrolled(false);
+      }
+    }
+  } , [])
 
   useEffect(() => {
     handleGetUser();
@@ -30,7 +42,7 @@ export default function Navbar(props) {
   }
 
   return (
-    <div className='flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 '>
+    <div className={scrolled ? 'flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 shadow-lg' : 'flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0'}>
       <div className={toggledSidebar ? 'flex gap-44' : 'flex gap-5'}>
         <Link to={'/'}>
           <img src={lms} alt="lms" className='hover:animate-spin'/>
@@ -42,7 +54,7 @@ export default function Navbar(props) {
         }
       </div>
       <div className='flex items-center font-semibold'>
-        <ul className='flex me-6 gap-5'>
+        <ul className='flex items-center'>
           {
             user.role === "Perusahaan" ? (
               <li className='hover:text-white'><Link to={'/dashboard/grup'}>Dashboard</Link></li>
@@ -50,8 +62,12 @@ export default function Navbar(props) {
               <></>
             )
           }
-          <li className='hover:text-white'><Link to={'/content/grup'}> Service</Link></li>
-          {/* <li><a href="" className='hover:text-white'>About Us</a></li> */}
+          {
+            user ? (
+              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/content/grup'}> Service</Link></li>
+            ):(<></>)
+          }
+          <li><a href="" className='px-4 py-3 hover:text-white hover:bg-secondary'>Course</a></li>
         </ul>
         {
           user.length == 0  ? (
