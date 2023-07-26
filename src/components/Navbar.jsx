@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useUsers } from "../store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { RxHamburgerMenu } from "react-icons/rx";
+import { FiUser } from "react-icons/fi";
 
 export default function Navbar(props) {
   const {  toggledSidebar, setToggledSidebar, dashboard } = props;
@@ -56,8 +57,8 @@ export default function Navbar(props) {
       <div className='flex items-center font-semibold'>
         <ul className='flex items-center'>
           {
-            user.role === "Perusahaan" ? (
-              <li className='hover:text-white'><Link to={'/dashboard/grup'}>Dashboard</Link></li>
+            user.role !== "Mahasiswa" ? (
+              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/dashboard/matkul'}>Dashboard</Link></li>
             ): (
               <></>
             )
@@ -67,7 +68,9 @@ export default function Navbar(props) {
               <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/content/grup'}> Service</Link></li>
             ):(<></>)
           }
-          <li><a href="" className='px-4 py-3 hover:text-white hover:bg-secondary'>Course</a></li>
+          <Link to={'/dashboard/matkul'}>
+            <li className='px-4 py-3 hover:text-white hover:bg-secondary'>Mata Kuliah</li>
+          </Link>
         </ul>
         {
           user.length == 0  ? (
@@ -77,10 +80,10 @@ export default function Navbar(props) {
           ) : (
             <div>
               <DropdownMenu.Root className>
-                <DropdownMenu.Trigger className='flex items-center hover:text-white active:outline-none px-2'>
-                  {user.firstName} {user.lastName} 
+                <DropdownMenu.Trigger className='flex items-center hover:text-white active:outline-none px-2 capitalize'>
+                  {user.username} 
                   {
-                    user.photo ? <img src={user.photo} alt="profile" className='w-12 h-12 rounded-full ms-4' /> : <></>
+                    user.photo ? <img src={user.photo} alt="profile" className='w-12 h-12 rounded-full ms-4' /> : <FiUser className='ms-4 text-3xl  rounded-full hover:border-white'></FiUser>
                   }
                 </DropdownMenu.Trigger>
 

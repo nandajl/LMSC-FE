@@ -36,7 +36,6 @@ export const UpdateUser = () => {
 
     function getUserData() {
         const localToken = localStorage.getItem('token');
-        console.log(localToken);
         axios.get("http://localhost:8000/api/v1/user", {
             headers: {
                 Authorization: `Bearer ${localToken}`

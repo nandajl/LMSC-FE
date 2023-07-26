@@ -1,18 +1,26 @@
 import React, { useEffect } from 'react'
 import { AiOutlinePlusSquare, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLessons } from '../../../store'
+import { useLessons, useUsers } from '../../../store'
 import axios from 'axios';
 
 export default function MateriAdmin() {
-  
+  const getUser = useUsers((state) => state.getUser)
   const lessons = useLessons((state) => state.lessons);
   const getListLessons = useLessons((state) => state.getListLessons);
+  const [user, setUser] = useState("");
 
   const navigate = useNavigate();
 
+  const handleGetUser = async () => {
+    const response = await getUser();
+    setUser(response);
+  }
+
   useEffect(() => {
-    getListLessons('http://localhost:8000/api/v1/lessons')
+    getListLessons('http://localhost:8000/api/v1/lessons');
+    handleGetUser();
+    console.log(user);
   }, [])
   
   async function handleDelete(id){
@@ -29,11 +37,17 @@ export default function MateriAdmin() {
     <div className='font-inter'>
       <div className='flex justify-between'>
         <p className='text-3xl font-bold'>Materi</p>
-        <Link to='/dashboard/materi/create'>
-          <AiOutlinePlusSquare className='text-5xl'/> 
-        </Link>
+        {
+          user.role === 'mahasiswa' ? (
+            <></>
+          ) : (
+            <Link to='/dashboard/materi/create'>
+              <AiOutlinePlusSquare className='text-5xl'/> 
+            </Link>
+          )
+        }
       </div>
-      <table className="min-w-full divide-y divide-gray-200 mt-10 shadow-lg">
+      <table className=" divide-y table-auto divide-gray-200 mt-10 shadow-lg">
         <thead className="bg-gray-300">
           <tr>
             <th scope="col"

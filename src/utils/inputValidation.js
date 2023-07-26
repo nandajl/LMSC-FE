@@ -3,7 +3,7 @@ export const name_validation = {
   label: 'Nama Lengkap',
   type: 'text',
   id: 'name',
-  placeholder: 'Nama Mahasiswa',
+  placeholder: 'User Name',
   validation: {
     required: {
       value: true,

@@ -26,16 +26,6 @@ export const useUsers = create((set) => ({
     deleteUser: () => set({ user: [] })
 }));
 
-export const useGrups = create((set) => ({
-    grups: [],
-    grup: '',
-    getListGrup: async (url) => {
-        const response = await axios.get(url)
-        set({ grups: response.data.data })
-    }
-}));
-
-
 export const useLessons = create((set) => ({
     lessons: [],
     lesson: '',

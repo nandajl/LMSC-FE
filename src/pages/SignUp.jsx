@@ -3,7 +3,7 @@ import work from '../../src/assets/img/work.png'
 import lms from '../../src/assets/img/lms.png'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { FormProvider, useForm, useFormContext } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Input } from '../components/Input'
 import { name_validation, password_validation, nim_validation, email_validation } from "../utils/inputValidation";
 
@@ -62,35 +62,6 @@ export const SignUp = () => {
     }
   }
 
-  async function handleRegister(e) {
-    try {
-      e.preventDefault();
-      const check = checkPassword(password, confirmPassword);
-      if (check == false) {
-        return;
-      }
-      const data = {
-        username: username,
-        email: email,
-        password: password
-      }
-      const register = await axios.post("http://localhost:8000/api/v1/register", data);
-      if (register) {
-        setMessage("Register Berhasil");
-        setAlert(true);
-        console.log(alert, message);
-        setTimeout(() => { navigate("/login") }, 1000)
-
-      }
-
-    } catch (error) {
-      const dataError = error.response.data.message;
-      setError(dataError);
-      setAlert(true);
-      setTimeout(() => { setAlert(false) }, 3000)
-
-    }
-  }
   return (
     <div className='container mx-auto pt-10'>
       {

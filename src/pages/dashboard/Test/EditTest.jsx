@@ -5,8 +5,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 export default function EditTest() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
-  const [lessons, setLessons] = useState([]);
-  const [lessonId, setLessonId] = useState("");
+  const [courseId, setCourseId] = useState("");
   const [description, setDescription] = useState("");
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -54,7 +53,7 @@ export default function EditTest() {
       const response = await axios.get(`http://localhost:8000/api/v1/test/${id}`);
       setTitle(response.data.data.title);
       setDescription(response.data.data.description);
-      setLessonId(response.data.data.lessons_id);
+      setCourseId(response.data.data.course_id);
       setAvailableFrom(formatDate(response.data.data.availableFrom));
       setAvailableTo(formatDate(response.data.data.availableTo));
       const { hour, minute, second } = splitTime(response.data.data.time);
@@ -79,18 +78,7 @@ export default function EditTest() {
     return formattedTime;
   }
 
-  async function handleGetListLesson(){
-    try {
-      const response = await axios.get('http://localhost:8000/api/v1/lessons');
-      setLessons(response.data.data)
-      console.log(lessons);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    handleGetListLesson();
     handleGetTest();
   }, [])
 
@@ -101,7 +89,6 @@ export default function EditTest() {
       const data = {
         title: title,
         description: description,
-        lessons_id: lessonId,
         time: time,
         availableFrom: availableFrom,
         availableTo: availableTo
@@ -109,7 +96,7 @@ export default function EditTest() {
       console.log(data);
       const response = await axios.put('http://localhost:8000/api/v1/test/'+id, data);
       if (response) {
-        navigate('/dashboard/test')
+        navigate('/dashboard/matkul/detail/'+courseId)
       }
     } catch (error) {
       console.log(error);
@@ -123,24 +110,15 @@ export default function EditTest() {
       </div>
       <div className='bg-white w-full mt-10 px-11 py-8'>
         <form onSubmit={handleSubmit}>
-          <div className='flex mb-4 w-2/3 justify-between items-center'>
-            <label htmlFor="lesson" className=''>Materi</label>
-            <select onChange={(e) => setLessonId(e.target.value)} name="lesson" id="lesson" className='ms-10 w-2/4'>
-              <option value={lessonId} hidden>Pilih Materi</option>
-              {
-                lessons.map(lesson => <option value={lesson.id} key={lesson.id}>{lesson.title}</option> )
-              }
-            </select>
-          </div>
-          <div className='flex mb-4  w-2/3 items-center'>
+          <div className='flex mb-4  w-full items-center'>
             <label htmlFor="title" className=''>Judul Test</label>
             <input  type="text" className='ms-auto w-1/2' value={title} onChange={e => setTitle(e.target.value)}/>
           </div>
-          <div className='flex mb-4 w-2/3 items-center justify-between'>
+          <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="description" className='me-40'>Deskripsi</label>
             <textarea type="text" className='w-1/2' value={description} onChange={e => setDescription(e.target.value)}/>
           </div>
-          <div className='flex mb-4 w-2/3 items-center justify-between'>
+          <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="time-input">Durasi</label>
             <div className='flex gap-2'>
               <input value={hours} onChange={(e) => setHours(e.target.value)} type="number" id="hour-input" name="hour-input" min="0" max="23" step="1" placeholder="JJ" required />
@@ -148,16 +126,16 @@ export default function EditTest() {
               <input value={seconds} onChange={(e) => setSeconds(e.target.value)} type="number" id="seconds-input" name="seconds-input" min="0" max="59" step="1" placeholder="DD" required />
             </div>
           </div>
-          <div className='flex mb-4 w-2/3 items-center justify-between'>
+          <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu mulai</label>
             <input value={availableFrom} onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
           </div>
-          <div className='flex mb-4 w-2/3 items-center justify-between'>
+          <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu selesai</label>
             <input value={availableTo} onChange={(e) => setAvailableTo(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
           </div>
           <div className='flex justify-end mt-40'>
-            <Link to='/dashboard/test'>
+            <Link to={'/dashboard/matkul/detail/'+courseId}>
               <button onClick={() => setIsAdding(false)} className='border border-secondary rounded-full p-2 text-secondary text-sm font-bold w-32 me-3'>Batal</button>
             </Link>
             <button type='submit' className='bg-secondary rounded-full p-2 text-white text-sm font-bold w-32'>Simpan</button>

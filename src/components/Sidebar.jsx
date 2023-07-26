@@ -12,8 +12,8 @@ export default function Sidebars(props) {
         <img src={lms} alt="lms" className='hover:animate-spin w-16 ml-6'/>
       </Link>
       <div className=' pl-6 py-4 mt-20 mb-4 hover:bg-info'>
-        <Link to='grup'>
-          <p className='font-medium '>Grup</p>
+        <Link to='matkul'>
+          <p className='font-medium '>Mata Kuliah</p>
         </Link>
       </div>
       <div className='pl-6 py-4 mb-4 hover:bg-info'>

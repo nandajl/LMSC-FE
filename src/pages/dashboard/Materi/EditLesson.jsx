@@ -25,19 +25,15 @@ const modules = {
 
 export default function EditLesson() {
   const getUser = useUsers((state) => state.getUser)
-
-
   const [body, setBody] = useState("")
   const [title, setTitle] = useState("")
-  const [grups, setGrups] = useState("")
-  const [grupId, setGrupId] = useState("")
+  const [courseId, setCourseId] = useState("")
   const [companyCode, setCompanyCode] = useState("")
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     handleGetUser();
-    handleGetListGrup();
   }, [companyCode])
 
   async function handleGetLesson(){
@@ -46,7 +42,7 @@ export default function EditLesson() {
         console.log("response", response);
         setTitle(response.data.data.title);
         setBody(response.data.data.body);
-        setGrupId(response.data.data.goup_id)
+        setCourseId(response.data.data.course_id)
     } catch (error) {
         console.log(error);
     }
@@ -68,20 +64,8 @@ export default function EditLesson() {
       };
       const response = await axios.put(`http://localhost:8000/api/v1/lessons/${id}`, data)
       if (response) {
-        navigate('/dashboard/materi')
+        navigate('/dashboard/matkul/detail/'+courseId)
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function handleGetListGrup(){
-    try {
-      const response = await axios.post('http://localhost:8000/api/v1/grup/find', {
-        companyCode : companyCode
-      })
-      console.log(response.data.data);
-      setGrups(response.data.data)
     } catch (error) {
       console.log(error);
     }
@@ -90,7 +74,6 @@ export default function EditLesson() {
   useEffect(() => {
     handleGetLesson();
     handleGetUser();
-    handleGetListGrup();
   }, []);
 
   return (
@@ -100,16 +83,6 @@ export default function EditLesson() {
       </div>
       <div className='bg-white w-full mt-10 px-11 py-8'>
         <form onSubmit={handleSubmit}>
-          <div className='flex mb-4 w-1/2 justify-between items-center'>
-            <label htmlFor="grup" className=''>Grup</label>
-            <select name="grup" id="grup" onChange={(e) => setGrupId(e.target.value)} className='ms-10 w-3/4'>
-            <option value={grupId} hidden>Pilih Grup</option>
-              {
-                grups &&
-                grups.map(grup => <option value={grup.id} key={grup.id}>{grup.name}</option> )
-              }
-            </select>
-          </div>
           <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="name" className=''>Judul</label>
             <input onChange={e => setTitle(e.target.value)} type="text" className='ms-10 w-3/4' value={title}/>
@@ -127,7 +100,7 @@ export default function EditLesson() {
             </div>
           </div>
           <div className='flex justify-end mt-40'>
-            <Link to='/dashboard/materi'>
+            <Link to={'/dashboard/matkul/detail/'+courseId}>
               <button  className='border border-secondary rounded-full p-2 text-secondary text-sm font-bold w-32 me-3'>Batal</button>
             </Link>
             <button type='submit' className='bg-secondary rounded-full p-2 text-white text-sm font-bold w-32'>Simpan</button>

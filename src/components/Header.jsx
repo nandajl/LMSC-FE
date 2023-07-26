@@ -10,7 +10,7 @@ export default class Header extends Component {
           <p className='text-4xl lg:text-6xl font-bold'>Grown Your Skill Now With Us</p>
           <p className='text-xl font-bold mt-8 mb-10 lg:mb-24'>Belajar bersama, berkembang bersama. jadilah SDM unggul <br /> bagi perusahaan.</p>
           <Link to='/content/grup' >
-            <button className='bg-secondary rounded-full p-2 text-white text-sm font-bold w-40 '>Mulai</button>
+            <button className='bg-secondary rounded-full py-4 px-8 text-white text-xl font-bold  '>Mulai Disini</button>
           </Link>
         </div>
         <img src={work} alt="work" className='h-80 lg:h-100'/>
