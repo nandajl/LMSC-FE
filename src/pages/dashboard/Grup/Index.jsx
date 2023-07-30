@@ -105,15 +105,6 @@ export default function GrupAdmin() {
     <div className='font-inter'>
       <div className='flex justify-between'>
         <p className='text-3xl font-bold'>Mata Kuliah</p>
-        {
-          user.role === 'Mahasiswa' ? (
-            <></>
-          ) : (
-            <Link to='/dashboard/matkul/create'>
-              <AiOutlinePlusSquare className='text-5xl'/> 
-            </Link>
-          )
-        }
       </div>
       <hr className='my-3'/>
       {
@@ -123,7 +114,7 @@ export default function GrupAdmin() {
           <>
             <div className='flex items-center gap-5'>
               <label htmlFor="grup_code" className='w-1/4'>Input Kode Mata Kuliah </label>
-              <input value={courseCode} onChange={(e) => setCourseCode(e.target.value)} type="text" placeholder='Grup Code' className='w-2/4 px-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500' />
+              <input value={courseCode} onChange={(e) => setCourseCode(e.target.value)} type="text" placeholder='Code' className='w-2/4 px-4 py-2 text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500' />
               <button onClick={handleEnrollCourse} className='bg-secondary hover:bg-opacity-50 font-medium text-white px-4 py-2 rounded-lg'>Submit</button>
               {
                 isLoading ? <AiOutlineLoading className='text-3xl animate-spin' /> :

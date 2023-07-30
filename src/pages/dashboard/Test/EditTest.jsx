@@ -128,7 +128,7 @@ export default function EditTest() {
           </div>
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu mulai</label>
-            <input value={availableFrom} onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
+            <input value={availableFrom} onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' required />
           </div>
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu selesai</label>

@@ -24,6 +24,7 @@ export const Assigment = () => {
     try {
       const response = await axios.post(`http://localhost:8000/api/v1/question/test/${id}`);
       setQuestion(response.data);
+      console.log(question);
     } catch (error) {
       console.log(error);
     }
@@ -34,22 +35,54 @@ export const Assigment = () => {
   };
   
   const handleAnswerChange = (e) => {
-    const newAnswer = {
-      question_id: question[page].id,
-      user_answer: e.target.value
-    };
-    const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === question[page].id);
-    if (answerIndex === -1) {
-      setInputAnswer((prevState) => [...prevState, newAnswer]);
+    const { name, value } = e.target;
+  
+    if (e.target.type === 'radio') {
+      const newAnswer = {
+        question_id: name,
+        user_answer: value
+      };
+      const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === name);
+      if (answerIndex === -1) {
+        setInputAnswer((prevState) => [...prevState, newAnswer]);
+      } else {
+        setInputAnswer((prevState) => {
+          const newState = [...prevState];
+          newState[answerIndex] = newAnswer;
+          return newState;
+        });
+      }
     } else {
-      setInputAnswer((prevState) => {
-        const newState = [...prevState];
-        newState[answerIndex] = newAnswer;
-        return newState;
-      });
+      setInputAnswer((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
     }
-    setAnswerText((prevState) => ({ ...prevState, [question[page].id]: e.target.value }));
-  }
+  
+    setAnswerText((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+  // const handleAnswerChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   const newAnswer = {
+  //     question_id: question[page].id,
+  //     user_answer: e.target.value
+  //   };
+  //   const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === question[page].id);
+  //   if (answerIndex === -1) {
+  //     setInputAnswer((prevState) => [...prevState, newAnswer]);
+  //   } else {
+  //     setInputAnswer((prevState) => {
+  //       const newState = [...prevState];
+  //       newState[answerIndex] = newAnswer;
+  //       return newState;
+  //     });
+  //   }
+  //   setAnswerText((prevState) => ({ ...prevState, [question[page].id]: e.target.value }));
+  // }
 
   function addDataToAnswers(answers, data) {
     const updatedAnswers = answers.map((answer) => {
@@ -62,6 +95,11 @@ export const Assigment = () => {
     return updatedAnswers;
   }
   
+  const handleTimeExpired = () => {
+    alert('Time Expired');
+    handleSubmit();
+    navigate('/dashboard/matkul/');
+  }
 
   const handleSubmit = async () => {
     try {
@@ -72,7 +110,6 @@ export const Assigment = () => {
       const data = addDataToAnswers(inputAnswer, dataTambah);
       const response = await axios.post(`http://localhost:8000/api/v1/user/answer`, data);
       navigate('/content/test');
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +125,7 @@ export const Assigment = () => {
       <div className='w-3/4 border border-secondary rounded-3xl lg:rounded-large py-8 lg:py-14 px-7 lg:px-20 my-40 mx-auto overflow-auto no-scrollbar'>
         <div className='flex justify-between'>
           <h1 className='text-3xl font-bold mb-5'>Assigment</h1>
-          <CountDown duration={state}/>
+          <CountDown duration={state} onTimeExpired={handleTimeExpired}/>
         </div>
         <div className='flex justify-between'>
           <div className='w-8/12'>
@@ -96,14 +133,25 @@ export const Assigment = () => {
               question.length > 0 ? (
                 <div className=''>
                   <p className='text-lg font-medium mb-5 ms-5'>{page + 1}. {question[page].question_text}</p>
-                  <textarea
-                    type="text"
-                    className='ms-14 w-full'
-                    name={question[page].id}
-                    value={answerText[question[page].id] || ''}
-                    onChange={(e) => handleAnswerChange(e)}
-                    placeholder='Answer'
-                  />
+                  {/* {
+                    question[page].Answers ? (
+                      question[page].Answers.map((item, index) => (
+                        <div key={index} className='flex items-center ms-14 gap-2'>
+                          <input type="radio" name={question[page].id} value={item.answer_text || ''} onChange={(e) => handleAnswerChange(e)}/>
+                          <label >{item.answer_text}</label>
+                        </div>
+                      ))
+                    ):( */}
+                      <textarea
+                        type="text"
+                        className='ms-14 w-full'
+                        name={question[page].id}
+                        value={answerText[question[page].id] || ''}
+                        onChange={(e) => handleAnswerChange(e)}
+                        placeholder='Answer'
+                      />
+                    {/* )
+                  } */}
                 </div>
               ) : (
                 <p>Loading...</p>

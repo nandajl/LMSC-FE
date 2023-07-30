@@ -11,29 +11,14 @@ export default function Sidebars(props) {
       <Link to={'/'}>
         <img src={lms} alt="lms" className='hover:animate-spin w-16 ml-6'/>
       </Link>
-      <div className=' pl-6 py-4 mt-20 mb-4 hover:bg-info'>
+      <div className=' pl-6 py-4 mt-20 mb-3 hover:bg-info'>
+        <Link to='user'>
+          <p className='font-medium '>User</p>
+        </Link>
+      </div>
+      <div className='pl-6 py-4 mb-3 hover:bg-info'>
         <Link to='matkul'>
-          <p className='font-medium '>Mata Kuliah</p>
-        </Link>
-      </div>
-      <div className='pl-6 py-4 mb-4 hover:bg-info'>
-        <Link to='materi'>
-          <p className='font-medium'>Materi</p>
-        </Link>
-      </div>
-      <div className='pl-6 py-4 mb-4 hover:bg-info'>
-        <Link to='test'>
-          <p className='font-medium'>Test</p>
-        </Link>
-      </div>
-      <div className='pl-6 py-4 mb-4 hover:bg-info'>
-        <Link to='feedback'>
-          <p className='font-medium'>Feedback</p>
-        </Link>
-      </div>
-      <div className='pl-6 py-4 mb-4 hover:bg-info'>
-        <Link to='company'>
-          <p className='font-medium'>Company</p>
+          <p className='font-medium'>Mata Kuliah</p>
         </Link>
       </div>
     </div>

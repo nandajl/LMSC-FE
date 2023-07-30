@@ -10,17 +10,19 @@ export default function CreateCourse(setIsAdding) {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
-  const [companyCode, setCompanyCode] = useState("")
+  const [companyCode, setCompanyCode] = useState("");
   const [user, setUser] = useState("");
-  const [description, setDescription] = useState("")
+  const [dosen, setDosen] = useState([]);
+  const [dosenId, setDosenId] = useState("")
+  const [description, setDescription] = useState("");
 
-  async function handleSubmit(e){
+  async function handleSubmit(e) {
     try {
       e.preventDefault();
       const data = {
         name: name,
         code: code,
-        user_id: user.id,
+        user_id: dosenId,
         description: description
       }
       const response = await axios.post('http://localhost:8000/api/v1/course', data);
@@ -31,18 +33,31 @@ export default function CreateCourse(setIsAdding) {
       console.log(error);
     }
   }
-  
-    async function handleGetUser(){
-      const response = await getUser()
-      setUser(response);
+
+  async function handleGetUser() {
+    const response = await getUser()
+    setUser(response);
+  }
+
+  const handleFindUser = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8000/api/v1/users/find`, {
+        role: "Dosen"
+      });
+      setDosen(response.data);
+    } catch (error) {
+      console.log(error);
     }
-    
-    useEffect(() => {
-      handleGetUser();
-    }, [companyCode])
+  }
 
 
-  function handleGenerateCode(e){
+  useEffect(() => {
+    handleGetUser();
+    handleFindUser();
+  }, [companyCode])
+
+
+  function handleGenerateCode(e) {
     e.preventDefault();
     const code = generate({ length: 6, special: false, lowerCase: false });
     setCode(code);
@@ -58,14 +73,23 @@ export default function CreateCourse(setIsAdding) {
         <form onSubmit={handleSubmit}>
           <div className='flex mb-4  w-full items-center'>
             <label htmlFor="name" className=''>Nama Mata Kuliah</label>
-            <input  type="text" className='ms-auto w-1/2' value={name} onChange={e => setName(e.target.value)}/>
+            <input type="text" className='ms-auto w-1/2' value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div className='flex mb-4 w-full items-center'>
             <label htmlFor="name" className='me-40'>Code</label>
             <div className='ms-auto w-1/2'>
-              <button onClick={handleGenerateCode} className='border border-black p-1 align-middle me-2'> <HiOutlineRefresh className='text-2xl '/> </button>
-              <input type="text" value={code} onChange={e => setCode(e.target.value)} disabled/>
+              <button onClick={handleGenerateCode} className='border border-black p-1 align-middle me-2'> <HiOutlineRefresh className='text-2xl ' /> </button>
+              <input type="text" value={code} onChange={e => setCode(e.target.value)} disabled />
             </div>
+          </div>
+          <div className='flex mb-4 w-full items-center'>
+            <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
+            <select name="dosen" onChange={e => setDosenId(e.target.value)} className='ms-auto w-2/3'>
+              <option hidden>Nama Dosen</option>
+              {
+                dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
+              }
+            </select>
           </div>
           <div className='flex mb-4 w-full justify-between'>
             <label htmlFor="description" className='me-40'>Deskripsi</label>
@@ -80,6 +104,6 @@ export default function CreateCourse(setIsAdding) {
         </form>
       </div>
     </div>
-    
+
   )
 }

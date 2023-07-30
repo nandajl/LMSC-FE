@@ -5,13 +5,15 @@ import { useUsers } from "../store";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser } from "react-icons/fi";
+import { AiOutlineClose } from 'react-icons/ai';
 
 export default function Navbar(props) {
   const {  toggledSidebar, setToggledSidebar, dashboard } = props;
   const getUser = useUsers((state) => state.getUser)
   const deleteUser = useUsers((state) => state.deleteUser)
 
-  const [user, setUser] = useState("")
+  const [user, setUser] = useState("");
+  const [toggleMenu, setToggleMenu] = useState(true);
   const [scrolled, setScrolled] = useState(false);
 
   const navigate = useNavigate();
@@ -44,33 +46,44 @@ export default function Navbar(props) {
 
   return (
     <div className={scrolled ? 'flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0 shadow-lg' : 'flex w-full justify-between h-20 py-3 px-4 bg-primary lg:px-16 fixed top-0'}>
-      <div className={toggledSidebar ? 'flex gap-44' : 'flex gap-5'}>
+      <div className={toggledSidebar ? 'flex item-center gap-44' : 'flex gap-5'}>
         <Link to={'/'}>
           <img src={lms} alt="lms" className='hover:animate-spin'/>
         </Link>
         {
           dashboard ? (
             <button className='text-white text-sm font-bold' onClick={() => setToggledSidebar(!props.toggledSidebar)}><RxHamburgerMenu className='text-3xl' /></button>
-          ) : <></>
-        }
+            ) : <></>
+          }
       </div>
-      <div className='flex items-center font-semibold'>
+      {
+        toggleMenu ? (
+          <></>
+          // <div className='h-screen w-1/2 z-10 p-5 bg-white md:hidden '>
+          //   <button className='text-black float-right text-sm font-bold' onClick={() => setToggleMenu(!toggleMenu)}><AiOutlineClose className='text-3xl' /></button>
+          // </div>
+        ) : (
+          <button className='md:hidden text-white text-sm font-bold' onClick={() => setToggleMenu(!toggleMenu)}><RxHamburgerMenu className='text-3xl' /></button>
+        )
+      }
+      
+      <div className='hidden md:flex items-center font-semibold'>
         <ul className='flex items-center'>
           {
-            user.role !== "Mahasiswa" ? (
-              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/dashboard/matkul'}>Dashboard</Link></li>
+            user.role === "Admin" ? (
+              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/admin/user'}>Dashboard</Link></li>
             ): (
               <></>
             )
           }
           {
-            user ? (
-              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/content/grup'}> Service</Link></li>
-            ):(<></>)
+            user.role !== "Admin" ? (
+              // <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/content/grup'}> Service</Link></li>
+              <Link to={'/dashboard/matkul'}>
+                <li className='px-4 py-3 hover:text-white hover:bg-secondary'>Mata Kuliah</li>
+              </Link>
+              ):(<></>)
           }
-          <Link to={'/dashboard/matkul'}>
-            <li className='px-4 py-3 hover:text-white hover:bg-secondary'>Mata Kuliah</li>
-          </Link>
         </ul>
         {
           user.length == 0  ? (

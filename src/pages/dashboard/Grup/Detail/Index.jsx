@@ -73,7 +73,11 @@ export const DetailCourse = () => {
               title="Tentang"
             >
               <p className='mb-3'>{course.description}</p>
-              <p>Code : {course.code}</p>
+              {
+                user.role !== "Mahasiswa" && (
+                  <p>Code : {course.code}</p>
+                )
+              }
             </Tabs.Item>
             <Tabs.Item
               title="Materi"

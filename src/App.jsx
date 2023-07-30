@@ -28,12 +28,16 @@ import DetailTestContent from './components/content/DetailTestContent'
 import CreateAssignment from "./pages/dashboard/Assignment/CreateAssignment";
 import EditAssignment from "./pages/dashboard/Assignment/EditAssignment";
 import { Assigment } from './components/content/Assignment'
-import { Company } from "./pages/dashboard/Company/index";
 import { LoginStaf } from "./pages/LoginStaf";
 import { DetailCourse } from "./pages/dashboard/Grup/Detail/Index";
 import { Lessons } from "./components/content/Lessons";
 import { DetailAssignment } from './pages/dashboard/Grup/Detail/Tugas/Index'
 import DetailTest from './pages/dashboard/Grup/Detail/Test/Index'
+import { AdminDashboard } from './pages/adminDashboard'
+import { User } from './pages/adminDashboard/User/Index'
+import { Matkul } from './pages/adminDashboard/Matkul/Index'
+import { CreateUser } from './pages/adminDashboard/User/CreateUser'
+import { EditUser } from './pages/adminDashboard/User/EditUser'
 
 function App() {
 
@@ -59,12 +63,16 @@ function App() {
         <Route path='test/create/:id' element={<CreateTest/>}/>
         <Route path='test/detail/:id' element={<DetailTest/>}/>
         <Route path='test/edit/:id' element={<EditTest/>}/>
-        <Route path='test/detail/:id' element={<SoalTest/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>
-        <Route path='company' element={<Company/>}/>
         <Route path='assignment/create/:id' element={<CreateAssignment/>}/>
         <Route path='assignment/edit/:id' element={<EditAssignment/>}/>
         <Route path='assignment/detail/:id' element={<DetailAssignment/>}/>
+      </Route>
+      <Route path='admin' element={<AdminDashboard/>}>
+        <Route path='user' element={<User/>}/>
+        <Route path='user/create' element={<CreateUser/>}/>
+        <Route path='user/edit/:id' element={<EditUser/>}/>
+        <Route path='matkul' element={<Matkul/>}/>
       </Route>
       <Route path='content' element={<Content />} >
         <Route path='grup' element={<GrupContent/>}/>
@@ -77,7 +85,6 @@ function App() {
       <Route path='test/assignment/:id' element={<Assigment/>}/>
 
       
-
     </Routes>
 
   )

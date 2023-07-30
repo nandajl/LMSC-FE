@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 export const CountDown = (props) => {
 
-  const { duration } = props;
+  const { duration, onTimeExpired } = props;
 
   const [timeLeft, setTimeLeft] = useState(duration);
 
@@ -15,6 +15,7 @@ export const CountDown = (props) => {
 
       if (totalSeconds <= 0) {
         clearInterval(timer);
+        onTimeExpired();
       } else {
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -25,7 +26,7 @@ export const CountDown = (props) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [duration]);
+  }, [duration, onTimeExpired]);
   
 
   return (

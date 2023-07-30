@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { React, useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 export const UpdateUser = () => {
@@ -11,8 +11,7 @@ export const UpdateUser = () => {
 
     const [id, setId] = useState("");
     const [username, setUsername] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [nim, setNim] = useState("")
     const [phone, setPhone] = useState("");
     const [companyCode, setCompanyCode] = useState("");
     const [address, setAddress] = useState("");
@@ -43,8 +42,7 @@ export const UpdateUser = () => {
         }).then(res => {
             setId(res.data.data.id);
             setUsername(res.data.data.username);
-            setFirstName(res.data.data.firstName);
-            setLastName(res.data.data.lastName);
+            setNim(res.data.data.nim);
             setPhone(res.data.data.phone);
             setCompanyCode(res.data.data.company_code);
             setAddress(res.data.data.address);
@@ -62,8 +60,7 @@ export const UpdateUser = () => {
 
         const body = new FormData();
         body.append("username", username);
-        body.append("firstName", firstName);
-        body.append("lastName", lastName);
+        body.append("nim", nim);
         body.append("phone", phone);
         body.append("address", address);
         if (role === "Perusahaan") {
@@ -115,12 +112,15 @@ export const UpdateUser = () => {
                 <div className='flex'>
                     <div className='flex flex-col mt-5 w-4/6'>
                         <label htmlFor="username">Username</label>
-                        <input value={username} onChange={e => setUsername(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' required disabled />
-                        <label className='mt-5'>Nama Lengkap</label>
-                        <div>
-                            <input value={firstName} onChange={e => setFirstName(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 w-1/2' required />
-                            <input value={lastName} onChange={e => setLastName(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 w-1/2 ' required />
-                        </div>
+                        <input value={username} onChange={e => setUsername(e.target.value)} type="text" className='text-gray-500 border mb-3 border-secondary rounded-full px-4 py-1 mt-2 ' required disabled />
+                        {
+                            nim && (
+                                <>
+                                    <label htmlFor="username">NIM</label>
+                                    <input value={nim} onChange={e => setNim(e.target.value)} type="text" className='text-gray-500 border border-secondary rounded-full px-4 py-1 mt-2 ' required disabled />
+                                </>
+                            )
+                        }
                     </div>
                     <div className='px-5 text-center'>
                         <label htmlFor="image">User Image</label>
@@ -132,21 +132,16 @@ export const UpdateUser = () => {
                     <label >Nomor Telepon</label>
                     <input value={phone} onChange={e => setPhone(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' required />
                 </div>
-                {
-                    role === "Perusahaan" ? (
-                        <></> 
-                    ) : (
-                        <div className='flex flex-col mt-5'>
-                            <label >Company Code</label>
-                            <input value={companyCode} onChange={e => setCompanyCode(e.target.value)} type="text" className='border border-secondary rounded-full px-4 py-1 mt-2 ' />
-                        </div>
-                    )
-                }
                 <div className='flex flex-col mt-5'>
                     <label>Alamat</label>
                     <textarea value={address} onChange={e => setAddress(e.target.value)} type="text" className='border border-secondary rounded-3xl px-4 py-3 mt-2 h-32' required />
                 </div>
-                <button className='bg-secondary rounded-full p-2 float-right text-white text-sm font-bold w-40 mt-5 hover:bg-blue-900'>Submit</button>
+                <div className='flex justify-between'>
+                    <Link to='/'>
+                        <button className='border border-secondary rounded-full p-2 float-right text-secondary text-sm font-bold w-40 mt-5 hover:outline hover:outline-secondary'>Batal</button>
+                    </Link>
+                    <button className='bg-secondary rounded-full p-2 float-right text-white text-sm font-bold w-40 mt-5 hover:bg-blue-900'>Submit</button>
+                </div>
             </form>
         </div>
     )

@@ -30,10 +30,10 @@ export const LoginStaf = () => {
         localStorage.setItem("token", token);
         setMessage("Login Berhasil");
         setAlert(true);
-        if (role !== 'Mahasiswa') {
+        if (role === 'Dosen') {
           setTimeout(() => { navigate("/dashboard/matkul") }, 1000);
         } else {
-          setTimeout(() => { navigate("/") }, 1000);
+          setTimeout(() => { navigate("/admin/user") }, 1000);
         }
       }
     }
@@ -57,39 +57,6 @@ export const LoginStaf = () => {
     handleGetLocalStorang();
   }, [])
 
-  async function handleLogin(e) {
-    try {
-      e.preventDefault();
-      const data = {
-        username: username,
-        password: password
-      }
-
-      const login = await axios.post("http://localhost:8000/api/v1/login", data);
-      console.log(login);
-      if (login) {
-        const token = login.data.data.token;
-        const role = login.data.data.role;
-        localStorage.setItem("token", token);
-        setMessage("Login Berhasil");
-        setAlert(true);
-        if (role === null) {
-          setTimeout(() => { navigate("/rolecheck") }, 1000);
-        }
-        else if (role === 'Perusahaan') {
-          setTimeout(() => { navigate("/dashboard/grup") }, 1000);
-        } else {
-          setTimeout(() => { navigate("/") }, 1000);
-
-        }
-      }
-    } catch (error) {
-      const dataError = error.response.data.message;
-      setError(dataError);
-      setAlert(true);
-      setTimeout(() => { setAlert(false) }, 3000)
-    }
-  }
 
   return (
     <div className='container mx-auto lg:pt-10'>
@@ -117,8 +84,8 @@ export const LoginStaf = () => {
       <p className='text-center font-inter tracking-widest text-2xl font-bold py-3 lg:py-0 uppercase'>
         Login staff
       </p>
-      <div className='container lg:flex justify-center'>
-        <div className='w-1/2 mt-6'>
+      <div className='container md:flex justify-center'>
+        <div className='w-full mt-6'>
           <FormProvider {...methods}>
             <form onSubmit={e => e.preventDefault} noValidate autoComplete='off' className='rounded-large mx-auto p-10 flex-col w-96 text-xs bg-primary text-center'>
               <img src={lms} alt="lms" className='mx-auto w-52 my-2' />

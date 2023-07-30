@@ -1,18 +1,17 @@
-import React, { useContext, useState } from 'react'
-import Sidebar from '../../components/Sidebar'
-import Navbar from '../../components/Navbar'
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
-import Grup from './Grup/Index'
+import React, { useState } from 'react'
+import Navbar from '../../components/Navbar';
+import { Outlet } from 'react-router-dom';
+import { useUsers } from '../../store';
+import Sidebars from '../../components/Sidebar';
 
-export const Homepage = () => {
+export const AdminDashboard = () => {
+  const [toggledSidebar, setToggledSidebar] = useState(true);
 
-  const [toggledSidebar, setToggledSidebar] = useState(false)
 
-  const path = '/dashboard/home';
   return (
     <div className='flex relative'>
-      <div className={toggledSidebar ? 'w-72 fixed' : 'hidden'}>
-        <Sidebar />
+      <div className={toggledSidebar ? 'w-full md:w-72 fixed' : 'hidden'}>
+        <Sidebars />
       </div>
       <div className='w-full h-full' style={{ minHeight: '100vh' }}>
         <Navbar toggledSidebar={toggledSidebar} setToggledSidebar={setToggledSidebar} dashboard={true} />
@@ -23,5 +22,4 @@ export const Homepage = () => {
     </div>
 
   );
-
 }

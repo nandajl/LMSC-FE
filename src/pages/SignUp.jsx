@@ -24,6 +24,7 @@ export const SignUp = () => {
 
   const onSubmit = methods.handleSubmit(async data => {
     try {
+      data.role = "Mahasiswa";
       const register = await axios.post("http://localhost:8000/api/v1/register", data);
       if (register) {
         setMessage("Register Berhasil");
