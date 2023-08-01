@@ -70,6 +70,13 @@ export default function Navbar(props) {
       <div className='hidden md:flex items-center font-semibold'>
         <ul className='flex items-center'>
           {
+            user.role !== "Admin" ? (
+              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/content/feedback'}>Feedback</Link></li>
+            ): (
+              <></>
+            )
+          }
+          {
             user.role === "Admin" ? (
               <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/admin/user'}>Dashboard</Link></li>
             ): (

@@ -31,19 +31,18 @@ export default function CreateLesson() {
   
   const [body, setBody] = useState("")
   const [title, setTitle] = useState("")
-  const [companyCode, setCompanyCode] = useState(null)
-  const [grups, setGrups] = useState([]);
-  const [grupId, setGrupId] = useState("")
+  const [companyCode, setCompanyCode] = useState(null);
+  const [content, setContent] = useState("");
 
   async function handleSubmit(e) {
     try {
       e.preventDefault();
-      const data = {
-        title: title,
-        body: body,
-        course_id: id
-      };
-      console.log(data);
+      const data = new FormData();
+      data.append("title", title);
+      data.append("body", body);
+      data.append("course_id", id);
+      data.append("content", content);
+    
       const response = await axios.post('http://localhost:8000/api/v1/lessons', data)
       if (response) {
         navigate('/dashboard/matkul/detail/' + id);
@@ -73,6 +72,10 @@ export default function CreateLesson() {
           <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="name" className=''>Judul</label>
             <input onChange={e => setTitle(e.target.value)} type="text" className='ms-10 w-3/4' />
+          </div>
+          <div className='flex mb-4 w-1/2 items-center justify-between'>
+            <label htmlFor="waktu">File</label>
+            <input onChange={(e) => setContent(e.target.files[0])} type="file" className='ms-10 w-3/4'/>
           </div>
           <div className='mb-4 w-full items-center mt-5'>
             <label htmlFor="Editor" className='me-40'>Isi</label>

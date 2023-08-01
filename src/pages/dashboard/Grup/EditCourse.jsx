@@ -53,8 +53,10 @@ export default function EditCourse() {
       }
       // console.log(data);
       const response = await axios.put(`http://localhost:8000/api/v1/course/${id}`, data);
-      if (response) {
+      if (user.role === "Admin") {
         navigate('/admin/matkul');
+      }else{
+        navigate('/dashboard/matkul');
       }
     } catch (error) {
       console.log(error);

@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useParams } from "react-router-dom";
 import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
 import axios from 'axios';
-import { Tabs } from "flowbite-react";
-import Card from "../../../../../components/Card";
-import { AiOutlineEdit, AiOutlinePlusCircle } from 'react-icons/ai';
 import { useUsers } from "../../../../../store";
 import ReactHtmlParser from 'react-html-parser';
+import { getFormattedFileName } from "../../../../../utils/viewClean";
 
 export const DetailMateri = () => {
   const getUser = useUsers((state) => state.getUser)
@@ -39,12 +37,18 @@ export const DetailMateri = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${REACT_APP_DEV_MODE}/lessons/${id}`);
-      console.log(response.data.data);
       setLessons(response.data.data);
+      console.log(lessons.content);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const handleDownload = (event, url) => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(`http://localhost:8000/file/${url}`);
   }
 
   useEffect(() => {
@@ -62,9 +66,16 @@ export const DetailMateri = () => {
       <div className=''>
         {
           loading ? (
-            <></>
+            <p>Loading ...</p>
           ):(
             <div className='bg-white p-10 rounded-3xl'>
+              {
+                lessons.content ? (
+                  <button onClick={(event) => handleDownload(event, lessons.content)}><p className='border-2 border-black p-1 my-5 hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(lessons.content)}</p></button>
+                ) : (
+                  <p>Tidak Ada File</p>
+                )
+              }
               {ReactHtmlParser(lessons.body)}
 
             </div>

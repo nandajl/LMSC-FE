@@ -63,7 +63,6 @@ function App() {
         <Route path='test/create/:id' element={<CreateTest/>}/>
         <Route path='test/detail/:id' element={<DetailTest/>}/>
         <Route path='test/edit/:id' element={<EditTest/>}/>
-        <Route path='feedback' element={<FeedbackAdmin/>}/>
         <Route path='assignment/create/:id' element={<CreateAssignment/>}/>
         <Route path='assignment/edit/:id' element={<EditAssignment/>}/>
         <Route path='assignment/detail/:id' element={<DetailAssignment/>}/>
@@ -73,6 +72,7 @@ function App() {
         <Route path='user/create' element={<CreateUser/>}/>
         <Route path='user/edit/:id' element={<EditUser/>}/>
         <Route path='matkul' element={<Matkul/>}/>
+        <Route path='feedback' element={<FeedbackAdmin/>}/>
       </Route>
       <Route path='content' element={<Content />} >
         <Route path='grup' element={<GrupContent/>}/>

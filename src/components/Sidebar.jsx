@@ -21,6 +21,11 @@ export default function Sidebars(props) {
           <p className='font-medium'>Mata Kuliah</p>
         </Link>
       </div>
+      <div className='pl-6 py-4 mb-3 hover:bg-info'>
+        <Link to='feedback'>
+          <p className='font-medium'>Feedback</p>
+        </Link>
+      </div>
     </div>
   )
 }
