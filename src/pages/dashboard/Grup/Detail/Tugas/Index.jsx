@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom";
 import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
+import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios';
 import { useUsers } from "../../../../../store";
 import ReactHtmlParser from 'react-html-parser';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { TfiMarkerAlt } from 'react-icons/tfi';
 import { cleanDateTime, getFormattedFileName } from '../../../../../utils/viewClean';
 
 export const DetailAssignment = () => {
@@ -19,6 +21,7 @@ export const DetailAssignment = () => {
   const [loading, setLoading] = useState(false);
   const [filteredSubmission, setFilteredSubmission] = useState([])
   const [loadingSubmission, setLoadingSubmission] = useState(true);
+  const [open, setOpen] = useState(false);
   const dateNow = new Date();
 
 
@@ -136,6 +139,7 @@ export const DetailAssignment = () => {
               </div>
               {
                 user.role === "Mahasiswa" ? (
+                  <>
                   <div className='bg-white p-10 rounded-3xl mt-5'>
                     <p className='text-lg font-bold mb-5'>Submission</p>
                     {
@@ -168,6 +172,35 @@ export const DetailAssignment = () => {
                       )
                     }
                   </div>
+                  <div className='bg-white p-10 rounded-3xl mt-5'>
+                    <p className='text-lg font-bold mb-5'>Nilai</p>
+                    {
+                      loadingSubmission ? (
+                        <p>Loading ...</p>
+                      ) : (
+                        filteredSubmission ? (
+                          filteredSubmission.map(item => (
+                            <div className='flex items-center justify-between mb-5' key={item.id}>
+                              <div className='flex items-center gap-2' >
+                                <button onClick={(event) => handleDownload(event, item.content)} className='border-2 border-black p-1  hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(item.content)}</button>
+                                <button onClick={(event) => handleDeleteSubmission(event, item.id)}><AiOutlineDelete className='text-2xl text-red-600 border-2 border-error' /></button>
+                              </div>
+                              {
+                                item.score === null ? (
+                                  <p className='my-5'>Belum ada Nilai</p>
+                                ): (
+                                  <p>Nilai : {item.score}</p>
+                                )
+                              }
+                            </div>
+                          ))
+                        ) : (
+                          <p className='my-5'>Tidak ada Nilai</p>
+                        )
+                      )
+                    }
+                  </div>
+                  </>
                 ) : (
                   <div className='bg-white p-10 rounded-3xl mt-5'>
                     <p className='text-lg font-bold mb-5'>Submission</p>
@@ -192,6 +225,9 @@ export const DetailAssignment = () => {
                                     Submission
                                   </th>
                                   <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+                                    Nilai
+                                  </th>
+                                  <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
                                     Waktu submit
                                   </th>
                                   <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
@@ -213,10 +249,20 @@ export const DetailAssignment = () => {
                                       <button onClick={(event) => handleDownload(event, item.content)} className='border-2 border-black p-1  hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(item.content)}</button>
                                     </td>
                                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                                      {item.score}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                                       {cleanDateTime(item.updatedAt)}
                                     </td>
                                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                                      <button onClick={(event) => handleDeleteSubmission(event, item.id)}><AiOutlineDelete className='text-2xl text-red-600 border-2 border-error' /></button>
+                                      <button onClick={(event) => handleDeleteSubmission(event, item.id)}><AiOutlineDelete className='text-2xl text-red-600 border-2 border-error mr-2' /></button>
+                                      <button onClick={() => setOpen(true)}><TfiMarkerAlt className='text-2xl text-secondary border-2 border-secondary' /></button>
+                                      {
+                                        open && (
+                                          <ModalNilai open={open} setOpen={setOpen} id={item.id} />
+                                        )
+                                      }
+                                      
                                     </td>
                                   </tr>
                                 ))
@@ -239,4 +285,51 @@ export const DetailAssignment = () => {
       </div>
     </div>
   )
+
+  
 }
+
+const ModalNilai = (props) => {
+  const [nilai, setNilai] = useState(0);
+  const setOpen = () => {
+    props.setOpen(false)
+  }
+  const sendNilai = async () => {
+   try {
+    const response = await axios.put(`${REACT_APP_DEV_MODE}/submission/${props.id}`, {
+      score: nilai
+    })
+    if (response.status === 201) {
+      props.setOpen(false);
+      window.location.reload(true);
+    }
+   } catch (error) {
+    console.log(error);
+   }
+  }
+  return(
+    <Dialog.Root open={props.open}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="bg-black bg-opacity-40 fixed inset-0" />
+          <Dialog.Content className="data-[state=open]:animate-fadeIn fixed top-1/2 left-1/2 max-h-full w-2/4 max-w-5xl -translate-x-1/2 -translate-y-1/2 rounded-md bg-white p-6 shadow-lg focus:outline-none">
+            <Dialog.Title className="text-xl font-medium pb-3 mb-6 border-b-2 border-slate-300">
+              Beri Nilai
+            </Dialog.Title>
+            <div className=''>
+              <label htmlFor="nilai" className="block mb-2 text-sm font-medium text-gray-900">Nilai</label>
+              <input type="number" onChange={(event) => setNilai(event.target.value)} id="nilai" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button onClick={setOpen} className="text-secondary border border-secondary hover:border-blue-950 hover:text-blue-950 me-2 focus:shadow-green7 inline-flex h-9 items-center justify-center rounded-md px-4 font-medium leading-none focus:outline-none">
+                Batal
+              </button>
+              <button onClick={sendNilai} className="text-gray-800 bg-primary hover:bg-green-200 hover:text-black focus:shadow-green7 inline-flex h-9 items-center justify-center rounded-md px-4 font-medium leading-none focus:outline-none">
+                Simpan
+              </button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+  )
+}
+
