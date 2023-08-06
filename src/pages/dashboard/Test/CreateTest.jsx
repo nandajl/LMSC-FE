@@ -6,8 +6,6 @@ export default function CreateTest() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [title, setTitle] = useState("");
-  const [lessons, setLessons] = useState([]);
-  const [lessonId, setLessonId] = useState("");
   const [description, setDescription] = useState("")
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
@@ -36,7 +34,6 @@ export default function CreateTest() {
         course_id: id,
         title: title,
         description: description,
-        lessons_id: lessonId,
         time: time,
         availableFrom: availableFrom,
         availableTo: availableTo
@@ -44,7 +41,7 @@ export default function CreateTest() {
       console.log(data);
       const response = await axios.post('http://localhost:8000/api/v1/test', data);
       if (response) {
-        navigate('/dashboard/matkul/detail/', id)
+        navigate('/dashboard/matkul/detail/'+ id)
       }
     } catch (error) {
       console.log(error);

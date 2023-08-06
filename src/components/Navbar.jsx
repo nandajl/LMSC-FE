@@ -6,21 +6,56 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineClose } from 'react-icons/ai';
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import axios from 'axios';
 
 export default function Navbar(props) {
   const {  toggledSidebar, setToggledSidebar, dashboard } = props;
   const getUser = useUsers((state) => state.getUser)
   const deleteUser = useUsers((state) => state.deleteUser)
-
+  
   const [user, setUser] = useState("");
   const [toggleMenu, setToggleMenu] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [notification, setNotification] = useState([]);
+  const [notificationRead, setNotificationRead] = useState([]);
 
   const navigate = useNavigate();
 
   async function handleGetUser(){
     const response = await getUser()
     setUser(response);
+  }
+
+  const handleGetNotification = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/notification/user', {
+        user_id: user.id
+      })
+      console.log(response.data);
+      setNotification(response.data);
+      // response.data.map(item => {
+      //   console.log(item.is_read);
+      // })
+      const filterNotification = response.data.filter(item => item.is_read == false)
+      setNotificationRead(filterNotification);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleUpdateNotification = async (id, idMatkul) => {
+    try {
+      setNotificationRead([]);
+      const response = await axios.put('http://localhost:8000/api/v1/notification/'+id, {
+        is_read: true
+      })
+      if (response) {
+        navigate('/dashboard/matkul/detail/' + idMatkul);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -37,6 +72,12 @@ export default function Navbar(props) {
   useEffect(() => {
     handleGetUser();
   }, [])
+
+  useEffect(() => {
+    if (user) {
+      handleGetNotification();
+    }
+  }, [user])
 
   const handlleLogout = () => {
     localStorage.removeItem('token');
@@ -92,6 +133,36 @@ export default function Navbar(props) {
               ):(<></>)
           }
         </ul>
+        <DropdownMenu.Root className>
+          <DropdownMenu.Trigger className='flex items-center hover:text-white active:outline-none px-2 capitalize'>
+              <IoMdNotificationsOutline className='text-2xl'/>{notificationRead.length > 0 ? <p className='text-xs text-white bg-red-500 rounded-full px-1'>{notificationRead.length}</p> : <></>}
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content className='w-full bg-white rounded-md py-1 px-1'> 
+              {
+                notification.length > 0 ? (
+                  (notification.sort((a, b) => a.is_read - b.is_read),
+                  notification.map(item => {
+                    return (
+                      <DropdownMenu.Item className={`${item.is_read ? 'bg-white' : 'bg-primary'} border-b-2 items-center rounded-sm px-3 py-4 hover:bg-primary hover:outline-none`} key={item.id}>
+                        <button onClick={()=>handleUpdateNotification(item.id, item.course_id)}>
+                          {item.message}
+                        </button>
+                      </DropdownMenu.Item>)
+                  }))
+                ):(
+                  <DropdownMenu.Item className='items-center rounded-sm px-3 py-1 hover:bg-primary hover:outline-none'>
+                    <p>Tidak ada notification</p>  
+                  </DropdownMenu.Item>  
+                  
+                )
+              }
+              <DropdownMenu.Arrow className=' fill-white'/>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
+
         {
           user.length == 0  ? (
             <Link to='/login'>

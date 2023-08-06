@@ -34,55 +34,55 @@ export const Assigment = () => {
     setPage(newPage);
   };
   
-  const handleAnswerChange = (e) => {
-    const { name, value } = e.target;
-  
-    if (e.target.type === 'radio') {
-      const newAnswer = {
-        question_id: name,
-        user_answer: value
-      };
-      const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === name);
-      if (answerIndex === -1) {
-        setInputAnswer((prevState) => [...prevState, newAnswer]);
-      } else {
-        setInputAnswer((prevState) => {
-          const newState = [...prevState];
-          newState[answerIndex] = newAnswer;
-          return newState;
-        });
-      }
-    } else {
-      setInputAnswer((prevState) => ({
-        ...prevState,
-        [name]: value
-      }));
-    }
-  
-    setAnswerText((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
   // const handleAnswerChange = (e) => {
   //   const { name, value } = e.target;
-
-  //   const newAnswer = {
-  //     question_id: question[page].id,
-  //     user_answer: e.target.value
-  //   };
-  //   const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === question[page].id);
-  //   if (answerIndex === -1) {
-  //     setInputAnswer((prevState) => [...prevState, newAnswer]);
+  
+  //   if (e.target.type === 'radio') {
+  //     const newAnswer = {
+  //       question_id: name,
+  //       user_answer: value
+  //     };
+  //     const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === name);
+  //     if (answerIndex === -1) {
+  //       setInputAnswer((prevState) => [...prevState, newAnswer]);
+  //     } else {
+  //       setInputAnswer((prevState) => {
+  //         const newState = [...prevState];
+  //         newState[answerIndex] = newAnswer;
+  //         return newState;
+  //       });
+  //     }
   //   } else {
-  //     setInputAnswer((prevState) => {
-  //       const newState = [...prevState];
-  //       newState[answerIndex] = newAnswer;
-  //       return newState;
-  //     });
+  //     setInputAnswer((prevState) => ({
+  //       ...prevState,
+  //       [name]: value
+  //     }));
   //   }
-  //   setAnswerText((prevState) => ({ ...prevState, [question[page].id]: e.target.value }));
-  // }
+  
+  //   setAnswerText((prevState) => ({
+  //     ...prevState,
+  //     [name]: value
+  //   }));
+  // };
+  const handleAnswerChange = (e) => {
+    const { name, value } = e.target;
+
+    const newAnswer = {
+      question_id: question[page].id,
+      user_answer: e.target.value
+    };
+    const answerIndex = inputAnswer.findIndex((answer) => answer.question_id === question[page].id);
+    if (answerIndex === -1) {
+      setInputAnswer((prevState) => [...prevState, newAnswer]);
+    } else {
+      setInputAnswer((prevState) => {
+        const newState = [...prevState];
+        newState[answerIndex] = newAnswer;
+        return newState;
+      });
+    }
+    setAnswerText((prevState) => ({ ...prevState, [question[page].id]: e.target.value }));
+  }
 
   function addDataToAnswers(answers, data) {
     const updatedAnswers = answers.map((answer) => {
@@ -109,7 +109,8 @@ export const Assigment = () => {
       }
       const data = addDataToAnswers(inputAnswer, dataTambah);
       const response = await axios.post(`http://localhost:8000/api/v1/user/answer`, data);
-      navigate('/content/test');
+      console.log(response);
+      navigate('/dashboard/matkul');
     } catch (error) {
       console.log(error);
     }

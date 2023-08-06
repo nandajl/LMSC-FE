@@ -121,9 +121,9 @@ export default function DetailTest() {
             ) : dateTime > new Date(test.availableTo) ? (
               <p className='text-red-500'>Ujian telah berakhir</p>
             ) : 
-            // userInTest.find(item => item.user_id === user.id) ? (
-            //   <p className='text-red-500'>Ujian telah dikerjakan</p>
-            // ) :
+            userInTest.find(item => item.user_id === user.id) ? (
+              <p className='text-red-500'>Ujian telah dikerjakan</p>
+            ) :
               (
                 <button onClick={handleAssinment} className='bg-info text-white font-bold py-2 px-4 rounded shadow-sm hover:bg-blue-500'>Mulai</button>
               )
