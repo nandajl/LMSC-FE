@@ -27,7 +27,7 @@ export default function CreateCourse(setIsAdding) {
       }
       const response = await axios.post('http://localhost:8000/api/v1/course', data);
       if (response.status === 201) {
-        navigate('/dashboard/matkul')
+        navigate('/admin/matkul')
       }
     } catch (error) {
       console.log(error);
@@ -84,7 +84,7 @@ export default function CreateCourse(setIsAdding) {
           </div>
           <div className='flex mb-4 w-full items-center'>
             <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
-            <select name="dosen" onChange={e => setDosenId(e.target.value)} className='ms-auto w-2/3'>
+            <select name="dosen" onChange={e => setDosenId(e.target.value)} className='ms-auto w-1/2' required>
               <option hidden>Nama Dosen</option>
               {
                 dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)

@@ -28,6 +28,7 @@ import DetailTestContent from './components/content/DetailTestContent'
 import CreateAssignment from "./pages/dashboard/Assignment/CreateAssignment";
 import EditAssignment from "./pages/dashboard/Assignment/EditAssignment";
 import { Assigment } from './components/content/Assignment'
+import { Quiz } from './components/content/Quiz'
 import { LoginStaf } from "./pages/LoginStaf";
 import { DetailCourse } from "./pages/dashboard/Grup/Detail/Index";
 import { Lessons } from "./components/content/Lessons";
@@ -38,6 +39,9 @@ import { User } from './pages/adminDashboard/User/Index'
 import { Matkul } from './pages/adminDashboard/Matkul/Index'
 import { CreateUser } from './pages/adminDashboard/User/CreateUser'
 import { EditUser } from './pages/adminDashboard/User/EditUser'
+import { Main } from "./pages/adminDashboard/Main/index";
+import { Kelas } from './pages/adminDashboard/Kelas'
+import EditMatkul from './pages/adminDashboard/Matkul/edit.jsx'
 
 function App() {
 
@@ -72,7 +76,10 @@ function App() {
         <Route path='user/create' element={<CreateUser/>}/>
         <Route path='user/edit/:id' element={<EditUser/>}/>
         <Route path='matkul' element={<Matkul/>}/>
+        <Route path='matkul/edit/:id' element={<EditMatkul/>}/>
+        <Route path='class' element={<Kelas/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>
+        <Route path='main' element={<Main/>}/>
       </Route>
       <Route path='content' element={<Content />} >
         <Route path='grup' element={<GrupContent/>}/>
@@ -82,7 +89,7 @@ function App() {
         <Route path='test/detail/:id' element={<DetailTestContent/>}/>
         <Route path='feedback' element={<FeedbackContent/>}/>
       </Route>
-      <Route path='test/assignment/:id' element={<Assigment/>}/>
+      <Route path='test/assignment/:id' element={<Quiz/>}/>
 
       
     </Routes>

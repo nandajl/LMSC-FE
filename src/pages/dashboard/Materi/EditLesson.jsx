@@ -29,6 +29,7 @@ export default function EditLesson() {
   const [title, setTitle] = useState("")
   const [courseId, setCourseId] = useState("")
   const [companyCode, setCompanyCode] = useState("")
+  const [content, setContent] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -58,10 +59,11 @@ export default function EditLesson() {
   async function handleSubmit(e) {
     try {
       e.preventDefault();
-      const data = {
-        title: title,
-        body: body
-      };
+      const data = new FormData();
+      data.append("title", title);
+      data.append("body", body);
+      data.append("content", content);
+
       const response = await axios.put(`http://localhost:8000/api/v1/lessons/${id}`, data)
       if (response) {
         navigate('/dashboard/matkul/detail/'+courseId)
@@ -86,6 +88,10 @@ export default function EditLesson() {
           <div className='flex mb-4 w-1/2 justify-between items-center'>
             <label htmlFor="name" className=''>Judul</label>
             <input onChange={e => setTitle(e.target.value)} type="text" className='ms-10 w-3/4' value={title}/>
+          </div>
+          <div className='flex mb-4 w-1/2 items-center justify-between'>
+            <label htmlFor="waktu">File</label>
+            <input onChange={(e) => setContent(e.target.files[0])} type="file" className='ms-10 w-3/4'/>
           </div>
           <div className='mb-4 w-full items-center mt-5'>
             <label htmlFor="Editor" className='me-40'>Isi</label>

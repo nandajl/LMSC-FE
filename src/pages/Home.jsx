@@ -15,7 +15,6 @@ export const Home = () => {
       <Navbar />
       <Header/>
       <WhyUs/>
-      <OurCommitment/>
       <StartNow/>
       <Faq/>
       <Footer/>

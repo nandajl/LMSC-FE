@@ -6,7 +6,7 @@ import icon_professional from '../assets/img/icon_professional.png'
 export default function WhyUs() {
   return (
     <div className='w-full  lg:px-28 my-16'>
-        <p className='text-center font-bold text-4xl lg:text-5xl'>Why Choose Us?</p>
+        <p className='text-center font-bold text-4xl lg:text-5xl'>Kenapa memilih kami?</p>
         <div className='lg:flex justify-between mt-16'>
             <div className='flex flex-col border border-black rounded-large mx-auto px-12 w-80 h-72 justify-center'>
               <img src={icon_complete} alt="icon complete" className='w-12'/>

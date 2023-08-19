@@ -82,7 +82,11 @@ export default function Navbar(props) {
   const handlleLogout = () => {
     localStorage.removeItem('token');
     deleteUser; 
-    navigate('/login');
+    const currentPath = window.location.pathname;
+    if (currentPath === '/') {
+      navigate('/login');
+    }
+    navigate('/');
   }
 
   return (
@@ -92,9 +96,11 @@ export default function Navbar(props) {
           <img src={lms} alt="lms" className='hover:animate-spin'/>
         </Link>
         {
-          dashboard ? (
+          user.role === "Admin" && (
+        dashboard ? (
             <button className='text-white text-sm font-bold' onClick={() => setToggledSidebar(!props.toggledSidebar)}><RxHamburgerMenu className='text-3xl' /></button>
             ) : <></>
+          )
           }
       </div>
       {
@@ -108,7 +114,7 @@ export default function Navbar(props) {
         )
       }
       
-      <div className='hidden md:flex items-center font-semibold'>
+      <div className='hidden sm:flex items-center font-semibold'>
         <ul className='flex items-center'>
           {
             user.role !== "Admin" ? (

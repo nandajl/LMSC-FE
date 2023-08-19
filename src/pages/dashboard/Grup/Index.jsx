@@ -81,7 +81,7 @@ export default function GrupAdmin() {
 
   const handleGetCourse = async () => {
     try {
-      const response = await axios.post(`${REACT_APP_DEV_MODE}/course/user`, {
+      const response = await axios.post(`${REACT_APP_DEV_MODE}/class/user`, {
         user_id: user.id
       })
       console.log(response);
@@ -138,8 +138,8 @@ export default function GrupAdmin() {
           user.role === "Mahasiswa" ? (
             courseMhs.length > 0 ? (
               courseMhs.map((course) => (
-                <Link to={'/dashboard/matkul/detail/' + course.Course.id} key={course.Course.id}>
-                  <Card key={course.Course.id} courseMhs={course.Course} /> 
+                <Link to={'/dashboard/matkul/detail/' + course.Class.id} key={course.Class.id}>
+                  <Card key={course.Class.id} courseMhs={course.Class} /> 
                 </Link>
             ))) : (
               <p>Belum ada Course</p>
@@ -157,57 +157,6 @@ export default function GrupAdmin() {
         }
 
       </div>
-      {/* <table className="min-w-full divide-y divide-gray-200 mt-10 shadow-lg">
-        <thead className="bg-gray-300">
-          <tr>
-            <th scope="col"
-              className="px-6 py-3 text-xs font-bold text-left text-black uppercase "
-            >
-              No
-            </th>
-            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Nama Mata Kuliah
-            </th>
-            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Kode
-            </th>
-            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Deskripsi
-            </th>
-            <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-              Aksi
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200">
-          {
-            course.length > 0 ? (
-              course.map((course, index) => (
-                <tr className='bg-white' key={course.id}>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                    {index + 1}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {course.name}  
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {course.code}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {course.description}
-                  </td>
-                  <td className="flex gap-2 px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
-                    <button onClick={() => navigate('/dashboard/matkul/edit/' + course.id)} className='border border-secondary text-secondary p-2 '> <AiOutlineEdit className='text-2xl'/> </button>
-                    <button onClick={() => handleDelete(course.id)} className='border border-error text-error p-2 '> <AiOutlineDelete className='text-2xl'/> </button>
-                  </td>
-                </tr>
-              ))
-            ):(
-              <></>
-            )
-          }
-        </tbody>
-      </table> */}
     </div>
   )
 }

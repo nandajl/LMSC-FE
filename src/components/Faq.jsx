@@ -5,7 +5,7 @@ export default function Faq() {
     return (
         <div className='lg:flex px-16 lg:px-44 my-28 justify-between'>
             <div>
-                <p className='text-4xl font-bold mb-10'>Frequently Asked Question</p>
+                <p className='text-4xl font-bold mb-10'>Pertanyaan yang sering ditanyakan</p>
                 <p>Bebrapa jawaban yang mungkin sedang kamu cari</p>
             </div>
             <div className='mt-6 lg:mt-0 lg:w-1/2 '>

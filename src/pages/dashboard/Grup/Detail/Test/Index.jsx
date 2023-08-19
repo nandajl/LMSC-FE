@@ -22,6 +22,9 @@ export default function DetailTest() {
   const [testAnswer, setTestAnswer] = useState([]);
   const [showTest, setShowTest] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [nilai, setNilai] = useState("");
+  const [nilaiMhs, setNilaiMhs] = useState("");
+  const [mhsAnswer, setMhsAnswer] = useState([]);
 
   const navigate = useNavigate();
 
@@ -50,6 +53,23 @@ export default function DetailTest() {
     }
   }
 
+  const handleGetMahasiswaAnswer = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`http://localhost:8000/api/v1/user/answer/find`, {
+        test_id: id,
+        user_id: user.id
+      });
+      setMhsAnswer(response.data);
+      const nilaiUser = response.data.filter(item => item.Answer.is_correct === true);
+      setNilaiMhs(nilaiUser.length);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+
   async function handleGetTest() {
     try {
       setLoading(true);
@@ -76,6 +96,8 @@ export default function DetailTest() {
 
   const handleShowTest = (userId) => {
     const filteredAnswer = testAnswer.filter(item => item.user_id === userId);
+    const nilaiUser = filteredAnswer.filter(item => item.Answer.is_correct === true);
+    setNilai(nilaiUser.length);
     setUserAnswer(filteredAnswer)
     setShowTest(true);
   }
@@ -84,6 +106,7 @@ export default function DetailTest() {
     handleGetTest();
     handleGetUser();
     handleGetUserAnswer();
+    handleGetMahasiswaAnswer();
   }, []);
 
   useEffect(() => {
@@ -129,6 +152,27 @@ export default function DetailTest() {
               )
           }
         </div>
+        {
+          mhsAnswer.length > 0 ? (
+            <div className='w-2/4 mx-auto mt-5 rounded-3xl bg-blue-200 p-10 shadow-lg'>
+              <p className=' font-bold text-2xl capitalize mb-2'>Hasil</p>
+              <p>Nilai : {nilaiMhs}/{mhsAnswer.length}</p>
+              {
+                mhsAnswer.map((item, index) => (
+                  <div key={index} className='flex flex-col gap-3 mt-5'>
+                    <div className='mb-3'>
+                      <p className='capitalize'>{index + 1}. {item.Question.question_text}</p>
+                      <p className='ms-5'>Jawaban Mahasiswa : {item.Answer.answer_text}</p>
+                      <p className='ms-5'>Jawaban Benar : {item.Question.Answers.find(answer => answer.is_correct === true).answer_text}</p>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          ) : (
+            <></>
+          )
+        }
       </div>
     )
   }
@@ -250,12 +294,13 @@ export default function DetailTest() {
                       <h1 className='text-2xl font-semibold mb-5'>Hasil Ujian </h1>
                       <p>{userAnswer[0].User.username}</p>
                       <p>{userAnswer[0].User.nim}</p>
+                      <p>Nilai Kuis : {nilai}/{userAnswer.length}</p>
                       {
                         userAnswer.map((item, index) => (
                           <div key={index} className='flex flex-col gap-3 mt-5'>
                             <div className='mb-3'>
                               <p className='capitalize'>{index + 1}. {item.Question.question_text}</p>
-                              <p className='ms-5'>Jawaban Mahasiswa : {item.user_answer}</p>
+                              <p className='ms-5'>Jawaban Mahasiswa : {item.Answer.answer_text}</p>
                             </div>
                           </div>
                         ))

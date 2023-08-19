@@ -149,7 +149,7 @@ export const DetailAssignment = () => {
                         filteredSubmission ? (
                           filteredSubmission.map(item => (
                             <div className='flex items-center justify-between mb-5' key={item.id}>
-                              <div className='flex items-center gap-2' >
+                              <div className='flex items-center gap-2 w-1/2' >
                                 <button onClick={(event) => handleDownload(event, item.content)} className='border-2 border-black p-1  hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(item.content)}</button>
                                 <button onClick={(event) => handleDeleteSubmission(event, item.id)}><AiOutlineDelete className='text-2xl text-red-600 border-2 border-error' /></button>
                               </div>
@@ -183,7 +183,6 @@ export const DetailAssignment = () => {
                             <div className='flex items-center justify-between mb-5' key={item.id}>
                               <div className='flex items-center gap-2' >
                                 <button onClick={(event) => handleDownload(event, item.content)} className='border-2 border-black p-1  hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(item.content)}</button>
-                                <button onClick={(event) => handleDeleteSubmission(event, item.id)}><AiOutlineDelete className='text-2xl text-red-600 border-2 border-error' /></button>
                               </div>
                               {
                                 item.score === null ? (

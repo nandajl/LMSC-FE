@@ -28,7 +28,7 @@ export const DetailCourse = () => {
   const handleGetCourse = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${REACT_APP_DEV_MODE}/course/${id}`);
+      const response = await axios.get(`${REACT_APP_DEV_MODE}/class/${id}`);
       console.log(response.data.data);
       setCourse(response.data.data)
       setAssignments(response.data.data.Assignments);
@@ -44,7 +44,7 @@ export const DetailCourse = () => {
     try {
       setLoading(true);
       const response = await axios.post(`${REACT_APP_DEV_MODE}/enrollment/user`, {
-        course_id: id
+        class_id: id
       })
       console.log(response);
       setEnrollment(response.data);
@@ -113,14 +113,14 @@ export const DetailCourse = () => {
                     user.role === "Mahasiswa" ? (
                       <></>
                     ) : (
-                      <div className='flex justify-end'>
+                      <div className='flex justify-end '>
                         <Link to={'/dashboard/materi/create/' + course.id}>
                           <AiOutlinePlusCircle className='text-5xl hover:text-gray-400' />
                         </Link>
                       </div>
                     )
                   }
-                  <div className='flex gap-5'>
+                  <div className='flex gap-5 flex-wrap'>
                     {
                       lessons.length > 0 ? (
                         lessons.map((lesson) => {
@@ -149,7 +149,7 @@ export const DetailCourse = () => {
                     </div>
                   )
                 }
-                <div className='flex flex-col gap-5 mt-5'>
+                <div className='flex flex-col gap-5 mt-5 flex-wrap'>
                   {
                     assignments.length > 0 ? (
                       assignments.map((assignment) => {
@@ -177,7 +177,7 @@ export const DetailCourse = () => {
                     </div>
                   )
                 }
-                <div className='flex gap-5'>
+                <div className='flex gap-5 flex-wrap'>
                   {
                     tests.length > 0 ? (
                       tests.map((test) => {

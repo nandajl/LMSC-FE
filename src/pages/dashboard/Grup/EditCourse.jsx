@@ -17,6 +17,7 @@ export default function EditCourse() {
   const [dosen, setDosen] = useState([]);
   const [courseUser, setCourseUser] = useState("");
   const [courseUserId, setCourseUserId] = useState("");
+  const [tahunAjaran, setTahunAjaran] = useState("");
   const { id } = useParams();
 
   const handleGetUser = async () => {
@@ -27,11 +28,12 @@ export default function EditCourse() {
   async function handleGetCourse() {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8000/api/v1/course/${id}`)
+      const response = await axios.get(`http://localhost:8000/api/v1/class/${id}`)
       console.log(response);
       setName(response.data.data.name);
       setCode(response.data.data.code);
       setDescription(response.data.data.description);
+      setTahunAjaran(response.data.data.tahun_ajaran);
       setCourseUser(response.data.data.User);
       setCourseUserId(response.data.data.User.id);
       setLoading(false);
@@ -49,10 +51,11 @@ export default function EditCourse() {
         name: name,
         code: code,
         description: description,
+        tahun_ajaran: tahunAjaran,
         user_id : courseUserId
       }
       // console.log(data);
-      const response = await axios.put(`http://localhost:8000/api/v1/course/${id}`, data);
+      const response = await axios.put(`http://localhost:8000/api/v1/class/${id}`, data);
       if (user.role === "Admin") {
         navigate('/admin/matkul');
       }else{
@@ -108,6 +111,16 @@ export default function EditCourse() {
                   <div className='ms-auto w-2/3'>
                     <button onClick={handleGenerateCode} className='border border-black p-1 align-middle me-2'> <HiOutlineRefresh className='text-2xl ' /> </button>
                     <input type="text"  value={code} onChange={e => setCode(e.target.value)} disabled />
+                  </div>
+                </div>
+                <div className='flex mb-4 w-full items-center'>
+                  <label htmlFor="name" className='me-40'>Tahun Ajaran</label>
+                  <div className='ms-auto w-2/3'>
+                    <select name="tahun_ajaran" onChange={e => setTahunAjaran(e.target.value)} >
+                      <option value={tahunAjaran} hidden>{tahunAjaran}</option>
+                      <option value="2022/2023" hidden>2022/2023</option>
+                      <option value="2023/2024" hidden>2023/2024</option>
+                    </select>
                   </div>
                 </div>
                 {
