@@ -34,6 +34,17 @@ export default function CreateLesson() {
   const [companyCode, setCompanyCode] = useState(null);
   const [content, setContent] = useState("");
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 5120 * 5120;
+    if (file && file.size > maxSize) {
+      alert('Ukuran file tidak boleh lebih besar dari 25 MB');
+      event.target.value = "";
+    } else {
+      setContent(file);
+    }
+  }
+
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -75,7 +86,7 @@ export default function CreateLesson() {
           </div>
           <div className='flex mb-4 w-1/2 items-center justify-between'>
             <label htmlFor="waktu">File</label>
-            <input onChange={(e) => setContent(e.target.files[0])} type="file" className='ms-10 w-3/4'/>
+            <input onChange={handleFileChange} type="file" className='ms-10 w-3/4'/>
           </div>
           <div className='mb-4 w-full items-center mt-5'>
             <label htmlFor="Editor" className='me-40'>Isi</label>

@@ -40,16 +40,14 @@ export default function CreateAssignment() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-  
-    setContent(file);
-  
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
+    const maxSize = 5120 * 5120;
+    if (file && file.size > maxSize) {
+      alert('Ukuran file tidak boleh lebih besar dari 25 MB');
+      event.target.value = "";
+    } else {
+      setContent(file);
+    }
+  }
   
   async function handleSubmit(e) {
     try {
@@ -110,7 +108,7 @@ export default function CreateAssignment() {
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">File</label>
             {/* <object data={content} type="application/pdf" width={'100%'} height={'100%'}/> */}
-            <input onChange={(e) => setContent(e.target.files[0])} type="file" className='w-1/2'/>
+            <input onChange={handleFileChange} type="file" className='w-1/2'/>
           </div>
           <div className='mb-4 w-full items-center mt-5'>
             <label htmlFor="Editor" className='me-40'>Deskripsi</label>

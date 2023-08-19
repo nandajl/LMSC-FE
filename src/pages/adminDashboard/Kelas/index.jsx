@@ -21,7 +21,7 @@ export const Kelas = () => {
   async function handleDelete(id){
     try {
       alert('Yakin ingin menghapus?')
-      await axios.delete(`http://localhost:8000/api/v1/kelas/${id}`)
+      await axios.delete(`http://localhost:8000/api/v1/class/${id}`)
       window.location.reload()
     } catch (error) {
       console.log(error);
