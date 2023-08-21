@@ -7,6 +7,8 @@ import { Tabs } from "flowbite-react";
 import { ModalSoal } from '../../../../../components/ModalSoal';
 import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiFileFind } from 'react-icons/bi';
+import { MdOutlineVisibilityOff, MdOutlineVisibility } from 'react-icons/md';
+import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
 
 export default function DetailTest() {
 
@@ -74,6 +76,7 @@ export default function DetailTest() {
     try {
       setLoading(true);
       const response = await axios.get(`http://localhost:8000/api/v1/test/${id}`);
+      console.log(response);
       setTest(response.data.data);
       setQuestion(response.data.data.Questions);
       setLoading(false);
@@ -102,12 +105,29 @@ export default function DetailTest() {
     setShowTest(true);
   }
 
+  const handleUpdateVisible = async () => {
+    try {
+      const response = await axios.put(`${REACT_APP_DEV_MODE}/test/${id}`,{
+        is_visible: !test.is_visible
+      });
+      if (response.status === 201) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     handleGetTest();
     handleGetUser();
     handleGetUserAnswer();
-    handleGetMahasiswaAnswer();
   }, []);
+  
+  useEffect(() => {
+    handleGetMahasiswaAnswer();
+
+  }, [user])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -212,9 +232,26 @@ export default function DetailTest() {
                     <p className='w-1/3'>Waktu selesai ujian</p>
                     <p className=''>{cleanDateTime(test.availableTo)}</p>
                   </div>
-                  <Link to={'/dashboard/test/edit/' + test.id}>
-                    <AiOutlineEdit className='text-2xl border-2 border-black float-right hover:text-white hover:border-white' />
-                  </Link>
+                  <div className='flex items-center mb-3'>
+                    <p className='w-1/3'>Ditampilkan</p>
+                    <p>{test.is_visible ? "Ya" : "Tidak"}</p>
+                  </div>
+                  <div className='flex justify-end gap-3'>
+                    <button onClick={handleUpdateVisible}>
+                      {
+                        test.is_visible ? (
+                          <MdOutlineVisibility className='text-2xl hover:text-white hover:border-white' />
+                          ) :(
+                            <MdOutlineVisibilityOff className='text-2xl hover:text-white hover:border-white' />
+                            
+                        )
+                      }
+                    </button>
+                    <Link to={'/dashboard/test/edit/' + test.id}>
+                      <AiOutlineEdit className='text-2xl border-2 border-black hover:text-white hover:border-white' />
+                    </Link>
+
+                  </div>
                 </div>
               </Tabs.Item>
               <Tabs.Item

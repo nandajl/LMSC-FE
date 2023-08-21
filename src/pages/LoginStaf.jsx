@@ -33,7 +33,7 @@ export const LoginStaf = () => {
         if (role === 'Dosen') {
           setTimeout(() => { navigate("/dashboard/matkul") }, 1000);
         } else {
-          setTimeout(() => { navigate("/admin/user") }, 1000);
+          setTimeout(() => { navigate("/admin/main") }, 1000);
         }
       }
     }

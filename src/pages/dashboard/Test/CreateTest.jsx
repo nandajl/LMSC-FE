@@ -31,7 +31,7 @@ export default function CreateTest() {
       e.preventDefault();
       const time = convertTime(hours, minutes, seconds);
       const data = {
-        course_id: id,
+        class_id: id,
         title: title,
         description: description,
         time: time,

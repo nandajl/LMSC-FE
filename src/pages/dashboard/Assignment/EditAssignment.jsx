@@ -77,7 +77,7 @@ export default function CreateAssignment() {
       setContent(response.data.content);
       setAvailableFrom(formatDate(response.data.availableFrom));
       setAvailableTo(formatDate(response.data.availableTo));
-      setCourseId(response.data.course_id);
+      setCourseId(response.data.class_id);
     } catch (error) {
       console.log(error);
     }

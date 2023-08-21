@@ -53,7 +53,7 @@ export default function EditTest() {
       const response = await axios.get(`http://localhost:8000/api/v1/test/${id}`);
       setTitle(response.data.data.title);
       setDescription(response.data.data.description);
-      setCourseId(response.data.data.course_id);
+      setCourseId(response.data.data.class_id);
       setAvailableFrom(formatDate(response.data.data.availableFrom));
       setAvailableTo(formatDate(response.data.data.availableTo));
       const { hour, minute, second } = splitTime(response.data.data.time);

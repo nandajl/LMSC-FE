@@ -125,7 +125,7 @@ export default function Navbar(props) {
           }
           {
             user.role === "Admin" ? (
-              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/admin/user'}>Dashboard</Link></li>
+              <li className='px-4 py-3 hover:text-white hover:bg-secondary'><Link to={'/admin/main'}>Dashboard</Link></li>
             ): (
               <></>
             )

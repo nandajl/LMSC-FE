@@ -84,7 +84,7 @@ export default function Card(props) {
   if (props.courseMhs) {
     return(
       <div className='w-48 h-48 rounded-lg shadow-lg p-4 bg-blue-200 hover:-translate-y-4 hover:duration-200 '>
-        <h1 className='font-bold text-xl capitalize mb-3'>{props.courseMhs.name}</h1>
+        <h1 className='font-bold text-xl capitalize mb-3'>{props.courseMhs.Course.name}</h1>
         <p>{props.courseMhs.description}</p>
       </div>
     )

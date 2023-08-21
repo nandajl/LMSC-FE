@@ -4,7 +4,6 @@ import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
 import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios';
 import { useUsers } from "../../../../../store";
-import ReactHtmlParser from 'react-html-parser';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { TfiMarkerAlt } from 'react-icons/tfi';
@@ -72,6 +71,7 @@ export const DetailAssignment = () => {
         },
       };
       const response = await axios.post(`${REACT_APP_DEV_MODE}/submission`, data, config);
+      console.log(response);
       if (response) {
         window.location.reload();
       }
@@ -103,7 +103,7 @@ export const DetailAssignment = () => {
     handleGetUser();
     handleGetAssignment();
     handleGetSubmission();
-  }, []);
+  }, [loadingSubmission]);
 
   useEffect(() => {
     if (loadingSubmission === false) {
@@ -128,7 +128,7 @@ export const DetailAssignment = () => {
                 <div className='flex items-center gap-2 mb-5 font-semibold text-sm'>
                   <MdOutlineDateRange />{cleanDateTime(assignment.availableFrom)} - {cleanDateTime(assignment.availableTo)}
                 </div>
-                <p className='text-lg'>{ReactHtmlParser(assignment.description)}</p>
+                <p className='text-lg' dangerouslySetInnerHTML={{ __html: assignment.description }}/>
                 {
                   assignment.content ? (
                     <button onClick={(event) => handleDownload(event, assignment.content)}><p className='border-2 border-black p-1 mt-5 hover:text-gray-400 hover:border-gray-400'>{getFormattedFileName(assignment.content)}</p></button>

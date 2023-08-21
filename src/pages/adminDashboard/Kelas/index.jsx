@@ -12,7 +12,7 @@ export const Kelas = () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/class`);
       setKelas(response.data.data);
-      console.log(response.data.data);
+      console.log(response.data.data);  
     } catch (error) {
       console.log(error);
     }
@@ -53,6 +53,9 @@ export const Kelas = () => {
                 Nama Kelas
               </th>
               <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+                Nama Mata Kuliah
+              </th>
+              <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
                 Code
               </th>
               <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
@@ -73,6 +76,9 @@ export const Kelas = () => {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                       {kelas.name}  
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                      {kelas.Course.name}  
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                       {kelas.code}  

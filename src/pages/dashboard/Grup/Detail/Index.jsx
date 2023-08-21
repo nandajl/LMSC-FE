@@ -16,6 +16,7 @@ export const DetailCourse = () => {
   const [assignments, setAssignments] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [tests, setTests] = useState([]);
+  const [testVisible, setTestVisible] = useState([]);
   const [loading, setLoading] = useState(false);
   const [enrollment, setEnrollment] = useState([]);
 
@@ -34,6 +35,8 @@ export const DetailCourse = () => {
       setAssignments(response.data.data.Assignments);
       setLessons(response.data.data.Lessons);
       setTests(response.data.data.Tests);
+      setTestVisible(response.data.data.Tests.filter(item => item.is_visible === true));
+      console.log(tests);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -168,29 +171,45 @@ export const DetailCourse = () => {
               >
                 {
                   user.role === "Mahasiswa" ? (
-                    <></>
+                    <>
+                      <div className='flex gap-5 flex-wrap'>
+                        {
+                          testVisible.length > 0 ? (
+                            testVisible.map((test) => {
+                              return <Link to={'/dashboard/test/detail/' + test.id} key={test.id}>
+                                <Card key={test.id} test={test} />
+                              </Link>
+                            })
+                          ) : (
+                            <p>Belum Ada Test</p>
+                          )
+                        }
+                      </div>
+                      
+                    </>
                   ) : (
-                    <div className='flex justify-end'>
-                      <Link to={'/dashboard/test/create/' + course.id}>
-                        <AiOutlinePlusCircle className='text-5xl hover:text-gray-400' />
-                      </Link>
-                    </div>
+                    <>
+                      <div className='flex justify-end'>
+                        <Link to={'/dashboard/test/create/' + course.id}>
+                          <AiOutlinePlusCircle className='text-5xl hover:text-gray-400' />
+                        </Link>
+                      </div>
+                      <div className='flex gap-5 flex-wrap'>
+                        {
+                          tests.length > 0 ? (
+                            tests.map((test) => {
+                              return <Link to={'/dashboard/test/detail/' + test.id} key={test.id}>
+                                <Card key={test.id} test={test} />
+                              </Link>
+                            })
+                          ) : (
+                            <p>Belum Ada Test</p>
+                          )
+                        }
+                      </div>
+                    </>
                   )
                 }
-                <div className='flex gap-5 flex-wrap'>
-                  {
-                    tests.length > 0 ? (
-                      tests.map((test) => {
-                        return <Link to={'/dashboard/test/detail/' + test.id} key={test.id}>
-                          <Card key={test.id} test={test} />
-                        </Link>
-                      })
-                    ) : (
-                      <p>Belum Ada Test</p>
-                    )
-                  }
-
-                </div>
               </Tabs.Item>
               {
                 user.role !== "Mahasiswa" ? (

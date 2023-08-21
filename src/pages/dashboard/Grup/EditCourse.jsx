@@ -4,6 +4,8 @@ import { generate } from '@wcj/generate-password';
 import axios from 'axios';
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useUsers } from "../../../store";
+import { REACT_APP_DEV_MODE } from "../../../utils/url"
+
 
 export default function EditCourse() {
 
@@ -15,6 +17,9 @@ export default function EditCourse() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState("");
   const [dosen, setDosen] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [courseId, setCourseId] = useState("");
+  const [courseData, setCourseData] = useState("");
   const [courseUser, setCourseUser] = useState("");
   const [courseUserId, setCourseUserId] = useState("");
   const [tahunAjaran, setTahunAjaran] = useState("");
@@ -34,6 +39,7 @@ export default function EditCourse() {
       setCode(response.data.data.code);
       setDescription(response.data.data.description);
       setTahunAjaran(response.data.data.tahun_ajaran);
+      setCourseData(response.data.data.Course)
       setCourseUser(response.data.data.User);
       setCourseUserId(response.data.data.User.id);
       setLoading(false);
@@ -52,7 +58,8 @@ export default function EditCourse() {
         code: code,
         description: description,
         tahun_ajaran: tahunAjaran,
-        user_id : courseUserId
+        user_id : courseUserId,
+        course_id: courseId
       }
       // console.log(data);
       const response = await axios.put(`http://localhost:8000/api/v1/class/${id}`, data);
@@ -77,10 +84,20 @@ export default function EditCourse() {
     }
   }
 
+  const handleGetMatkul = async () => {
+    try {
+      const response = await axios.get(`${REACT_APP_DEV_MODE}/course`);
+      setCourse(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     handleGetCourse();
     handleGetUser();
     handleFindUser();
+    handleGetMatkul();
   }, [])
   
   function handleGenerateCode(e) {
@@ -125,16 +142,28 @@ export default function EditCourse() {
                 </div>
                 {
                   user.role === "Admin" && (
-                    <div className='flex mb-4 w-full items-center'>
-                      <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
-                      <select name="dosen" onChange={e => setCourseUserId(e.target.value)} className='ms-auto w-2/3'>
-                      <option value={courseUserId} hidden>{courseUser.username}</option>
-                      {
-                        dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
+                    <>
+                      <div className='flex mb-4 w-full items-center'>
+                        <label htmlFor="name" className=''>Mata Kuliah</label>
+                        <select name="course" onChange={e => setCourseId(e.target.value)} className='ms-auto w-2/3'>
+                        <option value={courseId} hidden>{courseData.name}</option>
+                        {
+                          course.map(course => <option value={course.id}>{course.name}</option>)
 
-                      }
-                      </select>
-                    </div>
+                        }
+                        </select>
+                      </div>
+                      <div className='flex mb-4 w-full items-center'>
+                        <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
+                        <select name="dosen" onChange={e => setCourseUserId(e.target.value)} className='ms-auto w-2/3'>
+                        <option value={courseUserId} hidden>{courseUser.username}</option>
+                        {
+                          dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
+
+                        }
+                        </select>
+                      </div>
+                    </>
                   )
                 }
                 <div className='flex mb-4 w-full justify-between'>

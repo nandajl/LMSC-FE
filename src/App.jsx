@@ -35,13 +35,15 @@ import { Lessons } from "./components/content/Lessons";
 import { DetailAssignment } from './pages/dashboard/Grup/Detail/Tugas/Index'
 import DetailTest from './pages/dashboard/Grup/Detail/Test/Index'
 import { AdminDashboard } from './pages/adminDashboard'
-import { User } from './pages/adminDashboard/User/Index'
+import { Dosen } from './pages/adminDashboard/Dosen/Index'
 import { Matkul } from './pages/adminDashboard/Matkul/Index'
-import { CreateUser } from './pages/adminDashboard/User/CreateUser'
-import { EditUser } from './pages/adminDashboard/User/EditUser'
+import { CreateUser } from './pages/adminDashboard/Dosen/CreateUser'
+import { EditUser } from './pages/adminDashboard/Dosen/EditUser'
 import { Main } from "./pages/adminDashboard/Main/index";
 import { Kelas } from './pages/adminDashboard/Kelas'
 import EditMatkul from './pages/adminDashboard/Matkul/edit.jsx'
+import { Mahasiswa } from './pages/adminDashboard/Mahasiswa'
+import CreateMatkul from './pages/adminDashboard/Matkul/create'
 
 function App() {
 
@@ -72,10 +74,12 @@ function App() {
         <Route path='assignment/detail/:id' element={<DetailAssignment/>}/>
       </Route>
       <Route path='admin' element={<AdminDashboard/>}>
-        <Route path='user' element={<User/>}/>
+        <Route path='dosen' element={<Dosen/>}/>
+        <Route path='mahasiswa' element={<Mahasiswa/>}/>
         <Route path='user/create' element={<CreateUser/>}/>
         <Route path='user/edit/:id' element={<EditUser/>}/>
         <Route path='matkul' element={<Matkul/>}/>
+        <Route path='matkul/create' element={<CreateMatkul/>}/>
         <Route path='matkul/edit/:id' element={<EditMatkul/>}/>
         <Route path='class' element={<Kelas/>}/>
         <Route path='feedback' element={<FeedbackAdmin/>}/>

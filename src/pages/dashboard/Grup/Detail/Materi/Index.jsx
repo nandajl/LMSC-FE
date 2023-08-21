@@ -3,7 +3,6 @@ import { Link, Outlet, useParams } from "react-router-dom";
 import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
 import axios from 'axios';
 import { useUsers } from "../../../../../store";
-import ReactHtmlParser from 'react-html-parser';
 import { getFormattedFileName } from "../../../../../utils/viewClean";
 
 export const DetailMateri = () => {
@@ -76,8 +75,7 @@ export const DetailMateri = () => {
                   <p>Tidak Ada File</p>
                 )
               }
-              {ReactHtmlParser(lessons.body)}
-
+              <p dangerouslySetInnerHTML={{ __html: lessons.body }}/>
             </div>
           )
         }

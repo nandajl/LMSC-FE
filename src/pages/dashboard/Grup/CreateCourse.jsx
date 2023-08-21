@@ -4,6 +4,7 @@ import { generate } from '@wcj/generate-password';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { useUsers } from "../../../store";
+import { REACT_APP_DEV_MODE } from "../../../utils/url"
 
 export default function CreateCourse(setIsAdding) {
   const getUser = useUsers((state) => state.getUser)
@@ -15,6 +16,8 @@ export default function CreateCourse(setIsAdding) {
   const [dosen, setDosen] = useState([]);
   const [dosenId, setDosenId] = useState("")
   const [description, setDescription] = useState("");
+  const [course, setCourse] = useState([]);
+  const [courseId, setCourseId] = useState("");
 
   async function handleSubmit(e) {
     try {
@@ -23,9 +26,10 @@ export default function CreateCourse(setIsAdding) {
         name: name,
         code: code,
         user_id: dosenId,
+        course_id: courseId,
         description: description
       }
-      const response = await axios.post('http://localhost:8000/api/v1/course', data);
+      const response = await axios.post(`${REACT_APP_DEV_MODE}/course`, data);
       if (response.status === 201) {
         navigate('/admin/matkul')
       }
@@ -41,7 +45,7 @@ export default function CreateCourse(setIsAdding) {
 
   const handleFindUser = async () => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/v1/users/find`, {
+      const response = await axios.post(`${REACT_APP_DEV_MODE}/users/find`, {
         role: "Dosen"
       });
       setDosen(response.data);
@@ -50,10 +54,19 @@ export default function CreateCourse(setIsAdding) {
     }
   }
 
+  const handleGetMatkul = async () => {
+    try {
+      const response = await axios.get(`${REACT_APP_DEV_MODE}/course`);
+      setCourse(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     handleGetUser();
     handleFindUser();
+    handleGetMatkul();
   }, [companyCode])
 
 
@@ -67,12 +80,12 @@ export default function CreateCourse(setIsAdding) {
   return (
     <div className='font-inter'>
       <div className='flex justify-between'>
-        <p className='text-3xl font-bold'>Mata Kuliah</p>
+        <p className='text-3xl font-bold'>Kelas</p>
       </div>
       <div className='bg-white w-full mt-10 px-11 py-8'>
         <form onSubmit={handleSubmit}>
           <div className='flex mb-4  w-full items-center'>
-            <label htmlFor="name" className=''>Nama Mata Kuliah</label>
+            <label htmlFor="name" className=''>Nama Kelas</label>
             <input type="text" className='ms-auto w-1/2' value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div className='flex mb-4 w-full items-center'>
@@ -83,7 +96,16 @@ export default function CreateCourse(setIsAdding) {
             </div>
           </div>
           <div className='flex mb-4 w-full items-center'>
-            <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
+            <label htmlFor="name" className=''>Mata Kuliah</label>
+            <select name="course" onChange={e => setCourseId(e.target.value)} className='ms-auto w-1/2' required>
+              <option hidden>Mata Kuliah</option>
+              {
+                course.map(course => <option value={course.id}>{course.name}</option>)
+              }
+            </select>
+          </div>
+          <div className='flex mb-4 w-full items-center'>
+            <label htmlFor="name" className=''>Dosen Pengampu Kelas</label>
             <select name="dosen" onChange={e => setDosenId(e.target.value)} className='ms-auto w-1/2' required>
               <option hidden>Nama Dosen</option>
               {

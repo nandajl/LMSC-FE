@@ -55,7 +55,7 @@ export default function CreateAssignment() {
       const data = new FormData();
       data.append("title", title);
       data.append("description", body);
-      data.append("course_id", id);
+      data.append("class_id", id);
       data.append("availableFrom", availableFrom);
       data.append("availableTo", availableTo);
       data.append("content", content);
@@ -99,11 +99,11 @@ export default function CreateAssignment() {
           </div>
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu mulai</label>
-            <input onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
+            <input onChange={(e) => setAvailableFrom(e.target.value)} type="datetime-local" className='w-1/2'  required />
           </div>
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">Waktu selesai</label>
-            <input onChange={(e) => setAvailableTo(e.target.value)} type="datetime-local" className='w-1/2' required />
+            <input onChange={(e) => setAvailableTo(e.target.value)} type="datetime-local" className='w-1/2' min={new Date().toISOString().slice(0, 16)} required />
           </div>
           <div className='flex mb-4 w-full items-center justify-between'>
             <label htmlFor="waktu">File</label>

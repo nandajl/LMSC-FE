@@ -50,21 +50,22 @@ export const ModalSoal = (props) => {
               Tambah Soal
             </Dialog.Title>
             <div className='flex gap-5'>
-              <div className='w-4/6'>
-                {
+              <div className='w-full'>
+                <FormPilihanGanda sendData={sendData}/>
+                {/* {
                   option === "essai" ? (
                     <FormEssai setData={setData}/>
-                  ): (
-                    <FormPilihanGanda sendData={sendData}/>
+                    ): (
+                      <FormPilihanGanda sendData={sendData}/>
                   )
-                }
+                } */}
               </div>
-              <div className='w-2/6'>
+              {/* <div className='w-2/6'>
                 <select onChange={(e) => setOption(e.target.value)} name="modelSoal" id="modelSoal" className='rounded-lg w-full'>
                   <option value="essai">Essai</option>
                   <option value="pg">Pilihan Ganda</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="mt-6 flex justify-end">
               <Dialog.Close asChild>

@@ -43,7 +43,7 @@ export default function EditLesson() {
         console.log("response", response);
         setTitle(response.data.data.title);
         setBody(response.data.data.body);
-        setCourseId(response.data.data.course_id)
+        setCourseId(response.data.data.class_id)
     } catch (error) {
         console.log(error);
     }

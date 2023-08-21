@@ -51,7 +51,7 @@ export default function CreateLesson() {
       const data = new FormData();
       data.append("title", title);
       data.append("body", body);
-      data.append("course_id", id);
+      data.append("class_id", id);
       data.append("content", content);
     
       const response = await axios.post('http://localhost:8000/api/v1/lessons', data)
