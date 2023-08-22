@@ -3,8 +3,10 @@ import Sidebar from '../../components/Sidebar'
 import Navbar from '../../components/Navbar'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import Grup from './Grup/Index'
+import { useLogin } from '../../hooks/useLogin'
 
 export const Homepage = () => {
+  const username = useLogin();
 
   const [toggledSidebar, setToggledSidebar] = useState(false)
 

@@ -8,6 +8,7 @@ import { REACT_APP_DEV_MODE } from "../../../utils/url";
 import Alert from "../../../components/Alert";
 import Card from "../../../components/Card";
 import { FcCheckmark } from 'react-icons/fc';
+import { useLogin } from '../../../hooks/useLogin';
 
 export default function GrupAdmin() {
   const getUser = useUsers((state) => state.getUser)
@@ -20,6 +21,7 @@ export default function GrupAdmin() {
   const [isDone, setIsDone] = useState(false);
   const [error, setError] = useState(false)
   const [message, setMessage] = useState("");
+  const username = useLogin();
 
   const handleEnrollCourse = async () => {
     try {

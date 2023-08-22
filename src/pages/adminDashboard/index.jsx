@@ -3,10 +3,12 @@ import Navbar from '../../components/Navbar';
 import { Outlet } from 'react-router-dom';
 import { useUsers } from '../../store';
 import Sidebars from '../../components/Sidebar';
+import { useLogin } from '../../hooks/useLogin';
 
 export const AdminDashboard = () => {
   const [toggledSidebar, setToggledSidebar] = useState(true);
 
+  const username = useLogin();
 
   return (
     <div className='flex relative'>

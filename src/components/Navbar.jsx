@@ -81,12 +81,7 @@ export default function Navbar(props) {
 
   const handlleLogout = () => {
     localStorage.removeItem('token');
-    deleteUser; 
-    const currentPath = window.location.pathname;
-    if (currentPath === '/') {
-      navigate('/login');
-    }
-    navigate('/');
+    window.location.reload();
   }
 
   return (

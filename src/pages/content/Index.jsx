@@ -2,8 +2,11 @@ import React from 'react'
 import Navbar from '../../components/Navbar'
 import GrupContent from '../../components/content/GrupContent'
 import { Outlet, Link } from 'react-router-dom'
+import { useLogin } from '../../hooks/useLogin';
 
 export default function Grup() {
+  const username = useLogin();
+
   return (
     <>
       <Navbar/>

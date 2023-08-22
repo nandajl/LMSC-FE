@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { React, useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLogin } from '../hooks/useLogin';
 
 
 export const UpdateUser = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const company_code = params.get("company_code");
 
     const [id, setId] = useState("");
     const [username, setUsername] = useState("");
@@ -19,7 +18,9 @@ export const UpdateUser = () => {
     const [error, setError] = useState("");
     const [alert, setAlert] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [previewImage, setPreviewImage] = useState(null)
+    const [previewImage, setPreviewImage] = useState(null);
+    const user = useLogin();
+
 
     const handleImageChange = (event) => {
         const image = event.target.files[0];
