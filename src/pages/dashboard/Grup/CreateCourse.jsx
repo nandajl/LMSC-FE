@@ -14,7 +14,8 @@ export default function CreateCourse(setIsAdding) {
   const [companyCode, setCompanyCode] = useState("");
   const [user, setUser] = useState("");
   const [dosen, setDosen] = useState([]);
-  const [dosenId, setDosenId] = useState("")
+  const [dosenId1, setDosenId1] = useState("");
+  const [dosenId2, setDosenId2] = useState("");
   const [description, setDescription] = useState("");
   const [course, setCourse] = useState([]);
   const [courseId, setCourseId] = useState("");
@@ -25,13 +26,14 @@ export default function CreateCourse(setIsAdding) {
       const data = {
         name: name,
         code: code,
-        user_id: dosenId,
+        dosen_id_1: dosenId1,
+        dosen_id_2: dosenId2,
         course_id: courseId,
         description: description
       }
-      const response = await axios.post(`${REACT_APP_DEV_MODE}/course`, data);
+      const response = await axios.post(`${REACT_APP_DEV_MODE}/class`, data);
       if (response.status === 201) {
-        navigate('/admin/matkul')
+        navigate('/admin/class')
       }
     } catch (error) {
       console.log(error);
@@ -105,8 +107,17 @@ export default function CreateCourse(setIsAdding) {
             </select>
           </div>
           <div className='flex mb-4 w-full items-center'>
-            <label htmlFor="name" className=''>Dosen Pengampu Kelas</label>
-            <select name="dosen" onChange={e => setDosenId(e.target.value)} className='ms-auto w-1/2' required>
+            <label htmlFor="name" className=''>Dosen Pengampu Kelas 1</label>
+            <select name="dosen" onChange={e => setDosenId1(e.target.value)} className='ms-auto w-1/2' required>
+              <option hidden>Nama Dosen</option>
+              {
+                dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
+              }
+            </select>
+          </div>
+          <div className='flex mb-4 w-full items-center'>
+            <label htmlFor="name" className=''>Dosen Pengampu Kelas 2</label>
+            <select name="dosen" onChange={e => setDosenId2(e.target.value)} className='ms-auto w-1/2'>
               <option hidden>Nama Dosen</option>
               {
                 dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)

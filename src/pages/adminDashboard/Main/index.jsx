@@ -32,8 +32,10 @@ export const Main = () => {
       const response = await axios.get(`${REACT_APP_DEV_MODE}/class`);
       setKelas(response.data.data);
       const matkulDistict = [...new Set(response.data.data.map(item => item.course_id))];
-      const userDistinct = [...new Set(response.data.data.map(item => item.user_id))];
-      setActiveDosen(userDistinct);
+      const dosen1 = [...new Set(response.data.data.map(item => item.dosen_id_1))];
+      const dosen2 = [...new Set(response.data.data.map(item => item.dosen_id_2))];
+      const dosenDistinct = [...new Set([...dosen1, ...dosen2])];
+      setActiveDosen(dosenDistinct);
       setActiveMatkul(matkulDistict);
     } catch (error) {
       console.log(error);

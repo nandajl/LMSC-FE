@@ -20,8 +20,10 @@ export default function EditCourse() {
   const [course, setCourse] = useState([]);
   const [courseId, setCourseId] = useState("");
   const [courseData, setCourseData] = useState("");
-  const [courseUser, setCourseUser] = useState("");
-  const [courseUserId, setCourseUserId] = useState("");
+  const [courseUser1, setCourseUser1] = useState("");
+  const [courseUser2, setCourseUser2] = useState("");
+  const [courseUserId1, setCourseUserId1] = useState("");
+  const [courseUserId2, setCourseUserId2] = useState("");
   const [tahunAjaran, setTahunAjaran] = useState("");
   const { id } = useParams();
 
@@ -39,11 +41,14 @@ export default function EditCourse() {
       setCode(response.data.data.code);
       setDescription(response.data.data.description);
       setTahunAjaran(response.data.data.tahun_ajaran);
-      setCourseData(response.data.data.Course)
-      setCourseUser(response.data.data.User);
-      setCourseUserId(response.data.data.User.id);
+      setCourseId(response.data.data.course_id);
+      setCourseData(response.data.data.Course);
+      setCourseUser1(response.data.data.dosen_1);
+      setCourseUser2(response.data.data.dosen_2);
+      console.log(courseUser2);
+      setCourseUserId1(response.data.data.dosen_di_1);
+      setCourseUserId2(response.data.data.dosen_id_2);
       setLoading(false);
-
     } catch (error) {
       console.log(error);
     }
@@ -58,13 +63,14 @@ export default function EditCourse() {
         code: code,
         description: description,
         tahun_ajaran: tahunAjaran,
-        user_id : courseUserId,
+        dosen_id_1 : courseUserId1,
+        dosen_id_2 : courseUserId2,
         course_id: courseId
       }
       // console.log(data);
       const response = await axios.put(`http://localhost:8000/api/v1/class/${id}`, data);
       if (user.role === "Admin") {
-        navigate('/admin/matkul');
+        navigate('/admin/class');
       }else{
         navigate('/dashboard/matkul');
       }
@@ -154,9 +160,28 @@ export default function EditCourse() {
                         </select>
                       </div>
                       <div className='flex mb-4 w-full items-center'>
-                        <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah</label>
-                        <select name="dosen" onChange={e => setCourseUserId(e.target.value)} className='ms-auto w-2/3'>
-                        <option value={courseUserId} hidden>{courseUser.username}</option>
+                        <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah 1</label>
+                        <select name="dosen" onChange={e => setCourseUserId1(e.target.value)} className='ms-auto w-2/3'>
+                        <option value={courseUserId1} hidden>{courseUser1.username}</option>
+                        {
+                          dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
+
+                        }
+                        </select>
+                      </div>
+                      <div className='flex mb-4 w-full items-center'>
+                        <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah 2</label>
+                        <select name="dosen" onChange={e => setCourseUserId2(e.target.value)} className='ms-auto w-2/3'>
+                        {
+                          courseUser2 === null ? (
+                            <option value="" >Kosong</option>
+                          ):(
+                            <>
+                              <option value={courseUserId2} hidden>{courseUser2.username}</option>
+                              <option value="" >Kosong</option>
+                            </>
+                          )
+                        }
                         {
                           dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
 

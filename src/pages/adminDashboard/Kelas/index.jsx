@@ -59,7 +59,10 @@ export const Kelas = () => {
                 Code
               </th>
               <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
-                Dosen Pengampu
+                Dosen Pengampu 1
+              </th>
+              <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
+                Dosen Pengampu 2
               </th>
               <th scope="col" className="px-6 py-3 text-xs font-bold text-left text-black uppercase ">
                 Aksi
@@ -84,7 +87,11 @@ export const Kelas = () => {
                       {kelas.code}  
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                      {kelas.User.username}  
+                      {kelas.dosen_1.username}  
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                      {
+                        kelas.dosen_2 === null ? "Tidak ada" : kelas.dosen_2.username }  
                     </td>
                     <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">
                       <button onClick={() => navigate('/dashboard/matkul/edit/' + kelas.id)} className='border border-secondary shadow-lg text-secondary p-2 me-2'> <AiOutlineEdit className='text-2xl'/> </button>
