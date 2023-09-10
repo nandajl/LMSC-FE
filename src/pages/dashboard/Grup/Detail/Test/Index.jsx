@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { cleanDateTime } from '../../../../../utils/viewClean';
+import { printTableToPdf } from '../../../../../utils/viewClean';
 import { useUsers } from '../../../../../store';
 import { Tabs } from "flowbite-react";
 import { ModalSoal } from '../../../../../components/ModalSoal';
@@ -9,6 +10,7 @@ import { AiOutlineClose, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { BiFileFind } from 'react-icons/bi';
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from 'react-icons/md';
 import { REACT_APP_DEV_MODE } from "../../../../../utils/url";
+
 
 export default function DetailTest() {
 
@@ -27,6 +29,7 @@ export default function DetailTest() {
   const [nilai, setNilai] = useState("");
   const [nilaiMhs, setNilaiMhs] = useState("");
   const [mhsAnswer, setMhsAnswer] = useState([]);
+  const [daftarJawaban, setDaftarJawaban] = useState([]);
 
   const navigate = useNavigate();
 
@@ -42,6 +45,20 @@ export default function DetailTest() {
         test_id: id
       });
       setTestAnswer(response.data);
+      console.log(response.data);
+      const sortData = response.data.sort((a, b) => {
+        return a.user_id - b.user_id
+      });
+
+      const groupedArray = sortData.reduce((acc, obj) => {
+        const userId = obj.user_id;
+        if (!acc[userId]) {
+          acc[userId] = [];
+        }
+        acc[userId].push(obj);
+        return acc;
+      }, {});
+      setDaftarJawaban(groupedArray);
       const uniqueData = response.data.reduce((acc, curr) => {
         if (!acc.find(item => item.user_id === curr.user_id)) {
           acc.push(curr);
@@ -295,12 +312,18 @@ export default function DetailTest() {
                 title="Hasil"
               >
                 <div className='bg-white p-10 rounded-3xl'>
-                  <div className='overflow-auto rounded-lg shadow'>
+                  <div className='w-full flex justify-end'>
+                    <button onClick={() => printTableToPdf('tableNilai', test.title)} className='border border-info text-info p-2 rounded mb-5'>Cetak</button>
+                  </div>
+                  <div className='overflow-auto rounded-lg' id='tableNilai'>
+                    <p className='uppercase text-center text-2xl font-bold my-5'>{test.title}</p>
                     <table className='w-full divide-y divide-gray-200'>
                       <thead className='bg-gray-300'>
                         <tr>
                           <th scope='col' className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>No</th>
                           <th className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>Nama Mahasiswa</th>
+                          <th className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>Nilai</th>
+                          <th className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>Waktu Ujian</th>
                           <th className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>Hasil Ujian</th>
                         </tr>
                       </thead>
@@ -311,6 +334,12 @@ export default function DetailTest() {
                               <td className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>{index + 1}</td>
                               <td className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>
                                 {item.User.username}
+                              </td>
+                              <td className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>
+                                {daftarJawaban[item.user_id].filter(item => item.Answer.is_correct === true).length / daftarJawaban[item.user_id].length * 100}
+                              </td>
+                              <td className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>
+                                {cleanDateTime(item.updatedAt)}
                               </td>
                               <td className='px-6 py-3 text-xs font-bold text-left text-black uppercase'>
                                 <button onClick={(e) => handleShowTest(item.user_id)} className='hover:underline'>
@@ -338,6 +367,7 @@ export default function DetailTest() {
                             <div className='mb-3'>
                               <p className='capitalize'>{index + 1}. {item.Question.question_text}</p>
                               <p className='ms-5'>Jawaban Mahasiswa : {item.Answer.answer_text}</p>
+                              <p className='ms-5'>Jawaban Benar : {item.Question.Answers.find(answer => answer.is_correct === true).answer_text}</p>
                             </div>
                           </div>
                         ))

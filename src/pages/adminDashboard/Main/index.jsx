@@ -16,6 +16,7 @@ export const Main = () => {
   const [activeDosen, setActiveDosen] = useState([]);
   const [matkul, setMatkul] = useState([]);
   const [activeMatkul, setActiveMatkul] = useState([]);
+  const [feedback, setFeedback] = useState([]);
 
   const handleGelAllUser = async () => {
     try {
@@ -65,11 +66,22 @@ export const Main = () => {
     }
   }
 
+  const handleGetFeedback = async () => {
+    try {
+      const response = await axios.get(`${REACT_APP_DEV_MODE}/feedback`);
+      console.log(response);
+      setFeedback(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     handleGelAllUser();
     handleGetClass();
     handleGetEnrollment();
     handleGetMatkul();
+    handleGetFeedback();
   }, [])
 
 
@@ -112,7 +124,7 @@ export const Main = () => {
       {
         id: 1,
         label: 'Mata Kuliah',
-        data: [matkul.length, (matkul.length - activeMatkul.length)]
+        data: [activeMatkul.length, (matkul.length - activeMatkul.length)]
       }
     ],
   }

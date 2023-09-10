@@ -71,7 +71,7 @@ export const Kelas = () => {
           </thead>
           <tbody className="w-full divide-y divide-gray-200 ">
             {
-              kelas.length > 0 ? (
+              kelas.sort((a, b) => b.id - a.id).length > 0 ? (
                 kelas.map((kelas, index) => (
                   <tr className='bg-white' key={kelas.id}>
                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
@@ -87,7 +87,8 @@ export const Kelas = () => {
                       {kelas.code}  
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                      {kelas.dosen_1.username}  
+                    {
+                        kelas.dosen_1 === null ? "Tidak ada" : kelas.dosen_1.username } 
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                       {
@@ -99,6 +100,7 @@ export const Kelas = () => {
                     </td>
                   </tr>
                 ))
+                
               ):(
                 <div>Tidak ada kelas</div>
               )

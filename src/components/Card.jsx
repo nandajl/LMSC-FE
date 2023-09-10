@@ -76,16 +76,16 @@ export default function Card(props) {
   if (props.course) {
     return(
       <div className='w-48 h-48 rounded-lg shadow-lg p-4 bg-blue-200 hover:-translate-y-4 hover:duration-200 '>
-        <h1 className='font-bold text-xl capitalize mb-3'>{props.course.Course.name}</h1>
-        <p>{props.course.description}</p>
+        <h1 className='font-bold text-xl capitalize mb-3'>{props.course.name}</h1>
+        <p>{props.course.Course.name}</p>
       </div>
     )
   }
   if (props.courseMhs) {
     return(
       <div className='w-48 h-48 rounded-lg shadow-lg p-4 bg-blue-200 hover:-translate-y-4 hover:duration-200 '>
-        <h1 className='font-bold text-xl capitalize mb-3'>{props.courseMhs.Course.name}</h1>
-        <p>{props.courseMhs.description}</p>
+        <h1 className='font-bold text-xl capitalize mb-3'>{props.courseMhs.name}</h1>
+        <p>{props.courseMhs.Course.name}</p>
       </div>
     )
   }

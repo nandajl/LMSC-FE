@@ -27,10 +27,11 @@ export default function CreateCourse(setIsAdding) {
         name: name,
         code: code,
         dosen_id_1: dosenId1,
-        dosen_id_2: dosenId2,
+        dosen_id_2: parseInt(dosenId2),
         course_id: courseId,
         description: description
       }
+      console.log(data);
       const response = await axios.post(`${REACT_APP_DEV_MODE}/class`, data);
       if (response.status === 201) {
         navigate('/admin/class')
@@ -102,7 +103,7 @@ export default function CreateCourse(setIsAdding) {
             <select name="course" onChange={e => setCourseId(e.target.value)} className='ms-auto w-1/2' required>
               <option hidden>Mata Kuliah</option>
               {
-                course.map(course => <option value={course.id}>{course.name}</option>)
+                course.sort((a, b) => a.name.localeCompare(b.name)).map(course => <option value={course.id}>{course.name}</option>)
               }
             </select>
           </div>
@@ -118,7 +119,8 @@ export default function CreateCourse(setIsAdding) {
           <div className='flex mb-4 w-full items-center'>
             <label htmlFor="name" className=''>Dosen Pengampu Kelas 2</label>
             <select name="dosen" onChange={e => setDosenId2(e.target.value)} className='ms-auto w-1/2'>
-              <option hidden>Nama Dosen</option>
+              <option value={null} hidden>Nama Dosen</option>
+              <option value={null}>Kosong</option>
               {
                 dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
               }

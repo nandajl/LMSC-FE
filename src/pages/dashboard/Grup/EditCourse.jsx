@@ -46,7 +46,7 @@ export default function EditCourse() {
       setCourseUser1(response.data.data.dosen_1);
       setCourseUser2(response.data.data.dosen_2);
       console.log(courseUser2);
-      setCourseUserId1(response.data.data.dosen_di_1);
+      setCourseUserId1(response.data.data.dosen_id_1);
       setCourseUserId2(response.data.data.dosen_id_2);
       setLoading(false);
     } catch (error) {
@@ -63,11 +63,11 @@ export default function EditCourse() {
         code: code,
         description: description,
         tahun_ajaran: tahunAjaran,
-        dosen_id_1 : courseUserId1,
-        dosen_id_2 : courseUserId2,
+        dosen_id_1 : parseInt(courseUserId1),
+        dosen_id_2 : parseInt(courseUserId2),
         course_id: courseId
       }
-      // console.log(data);
+      console.log(data);
       const response = await axios.put(`http://localhost:8000/api/v1/class/${id}`, data);
       if (user.role === "Admin") {
         navigate('/admin/class');
@@ -141,8 +141,8 @@ export default function EditCourse() {
                   <div className='ms-auto w-2/3'>
                     <select name="tahun_ajaran" onChange={e => setTahunAjaran(e.target.value)} >
                       <option value={tahunAjaran} hidden>{tahunAjaran}</option>
-                      <option value="2022/2023" hidden>2022/2023</option>
-                      <option value="2023/2024" hidden>2023/2024</option>
+                      <option value="2022/2023" >2022/2023</option>
+                      <option value="2023/2024" >2023/2024</option>
                     </select>
                   </div>
                 </div>
@@ -162,7 +162,17 @@ export default function EditCourse() {
                       <div className='flex mb-4 w-full items-center'>
                         <label htmlFor="name" className=''>Dosen Pengampu Mata Kuliah 1</label>
                         <select name="dosen" onChange={e => setCourseUserId1(e.target.value)} className='ms-auto w-2/3'>
-                        <option value={courseUserId1} hidden>{courseUser1.username}</option>
+                        {/* <option value={courseUserId1} hidden>{courseUser1.username}</option> */}
+                        {
+                          courseUser1 === null ? (
+                            <option value={null} >Kosong</option>
+                          ):(
+                            <>
+                              <option value={courseUserId1} hidden>{courseUser1.username}</option>
+                              <option value="" >Kosong</option>
+                            </>
+                          )
+                        }
                         {
                           dosen.map(dosen => <option value={dosen.id}>{dosen.username}</option>)
 
@@ -174,7 +184,7 @@ export default function EditCourse() {
                         <select name="dosen" onChange={e => setCourseUserId2(e.target.value)} className='ms-auto w-2/3'>
                         {
                           courseUser2 === null ? (
-                            <option value="" >Kosong</option>
+                            <option value={null} >Kosong</option>
                           ):(
                             <>
                               <option value={courseUserId2} hidden>{courseUser2.username}</option>

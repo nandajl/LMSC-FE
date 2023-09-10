@@ -84,8 +84,8 @@ export const LoginStaf = () => {
       <p className='text-center font-inter tracking-widest text-2xl font-bold py-3 lg:py-0 uppercase'>
         Login staff
       </p>
-      <div className='container md:flex justify-center'>
-        <div className='w-full mt-6'>
+      <div className='container md:flex justify-center pb-16'>
+        <div className='w-full mt-6 '>
           <FormProvider {...methods}>
             <form onSubmit={e => e.preventDefault} noValidate autoComplete='off' className='rounded-large mx-auto p-10 flex-col w-96 text-xs bg-primary text-center'>
               <img src={lms} alt="lms" className='mx-auto w-52 my-2' />
@@ -95,6 +95,7 @@ export const LoginStaf = () => {
               <div className='mb-3'>
                 <Input {...password_validation} />
               </div>
+              <p className='text-sm'>Lupa Password, <a href="https://wa.me/6282259981420?text=Halo%20Admin" target='_blank' className='text-secondary hover:text-blue-950'>Hubungi Admin</a></p>
               {/* <p className='underline text-blue-400'><a href=""> Lupa Password?</a></p> */}
               <button onClick={onSubmit} className='mt-5 mb-3 bg-secondary rounded-full p-2 w-full text-white text-sm font-bold'>Login</button>
             </form>

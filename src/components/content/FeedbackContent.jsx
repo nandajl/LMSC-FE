@@ -48,15 +48,15 @@ export default function FeedbackContent() {
   }, [user])
 
   return (
-    <div className='h-full'>
+    <div className='h-full '>
       {
         feedback && feedback.length > 0 ? (
-          <div>
+          <div className='overflow-auto'>
             <div className='flex justify-between items-center'>
               <p className='font-bold text-3xl mb-6'>Feedback anda</p>
               <ModalFeedback />
             </div>
-            <table className="min-w-full divide-y divide-gray-200 mt-10 shadow-lg">
+            <table className="divide-y divide-gray-200 mt-10 shadow-lg ">
               <thead className="bg-gray-300">
                 <tr>
                   <th scope="col"
@@ -85,7 +85,7 @@ export default function FeedbackContent() {
                       <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                         {index + 1}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                      <td className="px-6 py-4 text-sm text-gray-800 ">
                         {feedback.FeedbackCat.name}  
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
@@ -93,7 +93,7 @@ export default function FeedbackContent() {
                           feedback.nilai === 1 ? '😔' : feedback.nilai === 2 ? '☹' : feedback.nilai === 3 ? '😐' : feedback.nilai === 4 ? '😄' : '😍' 
                         }  
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                      <td className="px-6 py-4 text-sm text-gray-800">
                         {feedback.message}
                       </td>
                       <td className="flex px-6 py-4 text-sm font-medium text-left whitespace-nowrap">

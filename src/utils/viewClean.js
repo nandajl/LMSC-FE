@@ -1,3 +1,4 @@
+import  html2pdf  from "html2pdf.js";
 import React from "react";
 
 export function cleanDateTime(datetimeStr) {
@@ -23,3 +24,15 @@ export function getFormattedFileName(filename) {
   const formattedName = nameParts.slice(3).join(" ");
   return formattedName;
 }
+
+export function printTableToPdf(id, name) {
+  const tableElement = document.getElementById(id);
+  const options = {
+    filename: `${name}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+  };
+
+  return html2pdf().set(options).from(tableElement).save();
+};

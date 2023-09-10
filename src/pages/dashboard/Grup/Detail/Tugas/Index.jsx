@@ -7,7 +7,7 @@ import { useUsers } from "../../../../../store";
 import { MdOutlineDateRange } from 'react-icons/md';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { TfiMarkerAlt } from 'react-icons/tfi';
-import { cleanDateTime, getFormattedFileName } from '../../../../../utils/viewClean';
+import { cleanDateTime, getFormattedFileName, printTableToPdf } from '../../../../../utils/viewClean';
 
 export const DetailAssignment = () => {
   const getUser = useUsers((state) => state.getUser)
@@ -202,13 +202,16 @@ export const DetailAssignment = () => {
                   </>
                 ) : (
                   <div className='bg-white p-10 rounded-3xl mt-5'>
-                    <p className='text-lg font-bold mb-5'>Submission</p>
+                    <div className='w-full flex justify-end'>
+                      <button onClick={() => printTableToPdf('print', assignment.title)} className='px-5 py-2 border border-info text-info hover:bg-slate-700 hover:text-white rounded-lg'>Cetak</button>
+                    </div>
                     {
                       loadingSubmission ? (
                         <p>Loading ...</p>
-                      ) : (
-                        submission ? (
-                          <div className='overflow-auto rounded-lg shadow'>
+                        ) : (
+                          submission ? (
+                            <div className='overflow-auto rounded-lg p-5' id='print'>
+                            <p className='text-lg font-bold mb-5'>Submission {assignment.title}</p>
                             <table className='w-full'>
                               <thead className='bg-gray-100'>
                                 <tr>

@@ -106,7 +106,7 @@ export default function GrupAdmin() {
   return (
     <div className='font-inter'>
       <div className='flex justify-between'>
-        <p className='text-3xl font-bold'>Mata Kuliah</p>
+        <p className='text-3xl font-bold'>Kelas</p>
       </div>
       <hr className='my-3'/>
       {
@@ -157,7 +157,6 @@ export default function GrupAdmin() {
             )
           )
         }
-
       </div>
     </div>
   )

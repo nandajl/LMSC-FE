@@ -101,6 +101,20 @@ export const DetailCourse = () => {
                 active
                 title="Tentang"
               >
+                {
+                  course.dosen_id_1 == null ? (
+                    <></>
+                    ) : (
+                    <p className='mb-3'>Dosen pengampu   : {course.dosen_1.username}</p>
+                  )
+                }
+                {
+                  course.dosen_id_2 != null ? (
+                    <p className='mb-3'>Dosen pengampu 2 : {course.dosen_2.username}</p>
+                  ) : (
+                    <></>
+                  )
+                }
                 <p className='mb-3'>{course.description}</p>
                 {
                   user.role !== "Mahasiswa" && (
